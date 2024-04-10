@@ -39,7 +39,7 @@ export default function About() {
         </div><br/><br/>
         <div class="details">
           <h2>What i Do?</h2>
-          <h1>My <span class="auto-type">expertise lies in [Your Key Skills/Services]. Whether it's [Specific Skill/Service #1], [Specific Skill/Service #2], or [Specific Skill/Service #3], I am dedicated to delivering top-notch results that not only meet but exceed expectations. I thrive on challenges and am always eager to take on new and exciting projects.</span></h1>
+          <h1>My <span class="auto-type">expertise lies in Software Development. Whether it's Frontend, Backend, or Full Stack, I am dedicated to delivering top-notch results that not only meet but exceed expectations. I thrive on challenges and am always eager to take on new and exciting projects.</span></h1>
         </div><br/><br/>
         <div class="details">
           <h2>Why Work With Me??</h2>
@@ -49,7 +49,7 @@ export default function About() {
         </div><br/><br/>
         <div class="details">
           <h2>Let's Connect!</h2>
-          <h1><span class="auto-type">I'm always open to new opportunities and collaborations. If you're looking for someone who is passionate about [Your Field] and can bring a fresh perspective to your project, let's chat! Feel free to reach out through [Your Preferred Contact Method].</span></h1>
+          <h1><span class="auto-type">I'm always open to new opportunities and collaborations. If you're looking for someone who is passionate about [Your Field] and can bring a fresh perspective to your project, let's chat! Feel free to reach out through <a> ashwinkumar0850@gmail.com</a>.</span></h1>
           <h1><span class="auto-type">Thank you for visiting my portfolio. I look forward to the possibility of working together and creating something extraordinary!</span></h1>
         </div>
         <div className="photo col-12">
