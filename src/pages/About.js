@@ -49,7 +49,7 @@ export default function About() {
         </div><br/><br/>
         <div class="details">
           <h2>Let's Connect!</h2>
-          <h1><span class="auto-type">I'm always open to new opportunities and collaborations. If you're looking for someone who is passionate about [Your Field] and can bring a fresh perspective to your project, let's chat! Feel free to reach out through <a> ashwinkumar0850@gmail.com</a>.</span></h1>
+          <h1><span class="auto-type">I'm always open to new opportunities and collaborations. If you're looking for someone who is passionate about Computer Science and can bring a fresh perspective to your project, let's chat! Feel free to reach out through </span> <a href='ashwinkumar0850@gmail.com'>Ashwin Kumar</a> </h1>
           <h1><span class="auto-type">Thank you for visiting my portfolio. I look forward to the possibility of working together and creating something extraordinary!</span></h1>
         </div>
         <div className="photo col-12">
