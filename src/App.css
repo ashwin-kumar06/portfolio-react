@@ -1,7 +1,9 @@
 body {
   background-image: url('/src/logos/background.jpg');
+  background-repeat: no-repeat;
   background-size: 100%;
   zoom: 80%;
+  background-color: #282c35;
 }
 
 .App {
