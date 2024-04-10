@@ -1,6 +1,7 @@
 body {
   background-image: url('/src/logos/background.jpg');
   background-size: 100%;
+  zoom: 80%;
 }
 
 .App {
