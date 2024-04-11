@@ -1,10 +1,12 @@
 
 import logo from '../logos/logo.jpg'
-import React from "react";
+import React, { useEffect } from "react";
 import '../App.css';
 
 export default function About() {
-
+  useEffect(()=>{
+    document.title="About"
+  })
 
   return (
     <div className="Home" >
