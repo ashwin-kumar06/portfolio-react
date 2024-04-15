@@ -5,6 +5,10 @@ body {
   zoom: 80%;
   background-color: #282c35;
 }
+
+.navbar-toggler-icon{
+  color: white;
+}
 .App {
   text-align: center;
 }
@@ -277,10 +281,18 @@ body {
 }
 
 .gallery img {
-  width: 600px;
+  width: 100%; /* Set the width to 100% to make the images responsive */
+  max-width: 600px; /* Set the maximum width for smaller screens */
+  height: auto; /* Maintain aspect ratio */
   margin: 5px;
-  margin-top: 20px;
+  margin-top: 50px;
   box-shadow: black 0px 0px 9px 2px;
+}
+
+@media screen and (max-width: 430px) {
+  .gallery img {
+    max-width: 100%; /* Set the maximum width to 100% for screens smaller than 430px */
+  }
 }
 
 /***** Section *****/ 

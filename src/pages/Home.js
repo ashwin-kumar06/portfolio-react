@@ -16,7 +16,6 @@ export default function Home() {
       loop: true,
     });
 
-    // Cleanup function to destroy Typed when the component unmounts
     return () => {
       typed.destroy();
     };
@@ -25,7 +24,6 @@ export default function Home() {
   const [flippedImageNames, setFlippedImageNames] = useState([false, false, false, false, false, false]);
 
   const handleFlipClick = (index) => {
-    // Create a new array with the flipped status of only the clicked image updated
     const newFlippedImages = flippedImages.map((status, i) => (i === index ? !status : status));
     setFlippedImages(newFlippedImages);
     const newFlippedImageNames = flippedImageNames.map((status, i) => (i === index ? !status : status));
@@ -39,7 +37,7 @@ export default function Home() {
         <div class="container-fluid">
           <a class="navbar-brand" href="/home"><img src={logo} alt="Logo" class="rounded-circle" style={{ width: 50 }} /></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
+          <i class="bi bi-toggles2"></i>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
             <ul class="navbar-nav ">

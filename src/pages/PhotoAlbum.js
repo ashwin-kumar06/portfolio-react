@@ -26,11 +26,10 @@ export default function PhotoAlbum() {
       </nav>
       <div className="photo-gallery">
         <div className="gallery container-fluid">
-          <div className="row ">
+          <div className="row">
             <div className="col-4">
               <img src={photos.image1} alt="1" />
               <img src={photos.image2} alt="2" />
-         
               <img src={photos.image4} alt="4" />
               <img src={photos.image5} alt="5" />
               <img src={photos.image6} alt="6" />
@@ -39,16 +38,13 @@ export default function PhotoAlbum() {
               <img src={photos.image9} alt="9" />
               <img src={photos.image10} alt="10" />
               <img src={photos.image11} alt="11" />
-
               <img src={photos.image13} alt="13" />
               <img src={photos.image14} alt="14" />
-         
               <img src={photos.image16} alt="16" />
               <img src={photos.image17} alt="17" />
               <img src={photos.image18} alt="18" />
             </div>
             <div className="col-4">
-
               <img src={photos.image19} alt="19" />
               <img src={photos.image20} alt="20" />
               <img src={photos.image21} alt="21" />
@@ -67,7 +63,6 @@ export default function PhotoAlbum() {
               <img src={photos.image34} alt="4" />
             </div>
             <div className="col-4">
-
               <img src={photos.image35} alt="5" />
               <img src={photos.image36} alt="6" />
               <img src={photos.image37} alt="7" />
@@ -75,9 +70,7 @@ export default function PhotoAlbum() {
               <img src={photos.image39} alt="9" />
               <img src={photos.image40} alt="10" />
               <img src={photos.image41} alt="11" />
-             
               <img src={photos.image44} alt="14" />
-        
               <img src={photos.image46} alt="16" />
               <img src={photos.image47} alt="16" />
               <img src={photos.image48} alt="16" />
