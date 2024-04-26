@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import Skill from './pages/Skill';
 import Resume from './pages/Resume';
 import PhotoAlbum from './pages/PhotoAlbum';
+import ChatGPTComponent from './pages/ChatBot';
 
 export default function App() {
     return (

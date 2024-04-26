@@ -282,7 +282,7 @@ body {
 
 .gallery img {
   width: 100%; /* Set the width to 100% to make the images responsive */
-  max-width: 600px; /* Set the maximum width for smaller screens */
+  max-width: 60\0px; /* Set the maximum width for smaller screens */
   height: auto; /* Maintain aspect ratio */
   margin: 5px;
   margin-top: 50px;

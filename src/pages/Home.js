@@ -1,6 +1,7 @@
 
 import logo from '../logos/logo.jpg'
 import pics from '../logos/single hex.png'
+import ChatBot from './ChatBot';
 import React, { useEffect, useState } from "react";
 import Typed from 'typed.js'
 import '../App.css';
@@ -81,6 +82,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <ChatBot/>
       <figure class="icon-cards mt-3">
         <div class="icon-cards__content">
           <div class="icon-cards__item d-flex align-items-center justify-content-center"><span class="h1">🙂</span></div>
