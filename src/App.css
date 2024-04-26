@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 body {
   background-image: url('/src/logos/background.jpg');
   background-repeat: no-repeat;
@@ -419,6 +420,35 @@ body {
   opacity: 1;
   transform: rotate(45deg) scale(1);
 }
+
+.chatbot-container {
+  cursor: pointer;
+  position: fixed;
+  bottom: 20px; /* Adjust this value to position the chatbot vertically */
+  left: -200px; /* Start position off the screen */
+  animation: moveRight 10s linear infinite; /* Adjust animation duration and timing function as needed */
+  transition: left 0.5s ease;
+}
+.chatbot-container .open{
+  animation: none;
+}
+
+p{
+  font-family: "Jersey 25", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 45px;
+  color: white;
+}
+@keyframes moveRight {
+  0% {
+      left: -200px; /* Start position off the screen */
+  }
+  100% {
+      left: calc(100% - 350px); /* End position on the right side */
+  }
+}
+
 @keyframes jelly {
   from {
       transform: scale(1, 1);
@@ -444,3 +474,51 @@ body {
 }
  /***** End Section *****/
 
+ /***** Section *****/ 
+ .card{
+  box-shadow: #af35fa 0px 0px 5px 5px;
+  background-color: #282c35;
+ }
+ .chat-online {
+  color: #34ce57
+}
+
+.chat-offline {
+  color: #e4606d
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  overflow-y: scroll hidden;
+}
+
+.chat-message-left,
+.chat-message-right {
+  display: flex;
+  flex-shrink: 0
+}
+
+
+
+.chat-message-right {
+  flex-direction: row-reverse;
+  margin-left: auto
+}
+.py-3 {
+  padding-top: 1rem!important;
+  padding-bottom: 1rem!important;
+}
+.px-4 {
+  padding-right: 1.5rem!important;
+  padding-left: 1.5rem!important;
+}
+.flex-grow-0 {
+  flex-grow: 0!important;
+}
+.border-top {
+  border-top: 1px solid #dee2e6!important;
+}
+  /***** End Section *****/
+ 
