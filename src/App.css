@@ -491,7 +491,11 @@ p{
   display: flex;
   flex-direction: column;
   max-height: 200px;
-  overflow-y: scroll hidden;
+  overflow-y: scroll ;
+}
+
+.chat-messages::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-message-left,
