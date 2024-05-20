@@ -13,13 +13,14 @@ export default function App() {
     return (
         <div className="App">
             <Routes>
+                <Route path="/portfolio-react" element={<Home />} />
                 <Route path="home" element={<Home />} />
                 <Route path="about" element={<About />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="skill" element={<Skill />} />
                 <Route path="resume" element={<Resume />} />
                 <Route path="photo" element={<PhotoAlbum />}/>
-                <Route path="/portfolio-react" element={<LoadingPage />}/>
+                <Route path="/loading" element={<LoadingPage />}/>
             </Routes>
         </div>
     );
