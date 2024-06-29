@@ -10,7 +10,7 @@ export default function ChatBox() {
     const callChatbotAPI = async (message) => {
         try {
             console.log("message", message);
-            const response = await axios.post('http://127.0.0.1:5000/chatbot/chat', { message });
+            const response = await axios.post('https://myai-1-hx35.onrender.com/chatbot/chat', { message });
             console.log("response", response);
             return response.data.response;
         } catch (error) {
