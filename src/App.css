@@ -554,4 +554,26 @@ p{
 
     box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
 }
+
+/* Add styles for dark mode */
+.dark-mode {
+  background-color: #282c35;
+  color: white;
+}
+
+/* Additional styles for dark mode */
+.dark-mode .navbar-toggler-icon {
+  color: white;
+}
+
+.dark-mode .collapse a {
+  color: white;
+}
+
+/* Add styles for light mode */
+.light-mode {
+  background-color: white;
+  color: #282c35;
+  /* Define your light mode styles here */
+}
  /***** End Section *****/

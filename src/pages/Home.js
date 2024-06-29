@@ -7,9 +7,16 @@ import Typed from 'typed.js'
 import '../App.css';
 
 export default function Home() {
+  const [mode, setMode] = useState('light');
+
+  const toggleMode = () => {
+    setMode(mode === 'light' ? 'dark' : 'light');
+  }
+
+
   useEffect(() => {
-    document.title="Home"
-    // Initialize Typed in the useEffect hook
+    document.title = "Home";
+    // Additional setup for Typed.js
     var typed = new Typed(".auto-type", {
       strings: ["a Trainee Software Engineer", "a Developer"],
       typeSpeed: 100,
@@ -21,6 +28,7 @@ export default function Home() {
       typed.destroy();
     };
   }, []);
+
   const [flippedImages, setFlippedImages] = useState([false, false, false, false, false, false]);
   const [flippedImageNames, setFlippedImageNames] = useState([false, false, false, false, false, false]);
 
@@ -32,7 +40,7 @@ export default function Home() {
   }
 
   return (
-    <div className="Home" >
+    <div className={`Home ${mode === 'dark' ? 'dark-mode' : ''}`}>
 
       <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
@@ -52,7 +60,7 @@ export default function Home() {
 
       <div class="content row-sm">
         <div class="details col-5">
-          <h2>Hi There,<br />I'm <span>Ashwin Kumar</span></h2>
+          <h2>Hi There,<br />I'm <span className="render">Ashwin Kumar</span></h2>
           <h1>I'm <span class="auto-type"></span></h1>
         </div>
         <div className="hexagon-container col">
@@ -84,6 +92,7 @@ export default function Home() {
       </div>
       <ChatBot/>
       <script src="script.js"></script>
+      <button onClick={toggleMode}>Toggle Mode</button>
     </div>
   );
 }
