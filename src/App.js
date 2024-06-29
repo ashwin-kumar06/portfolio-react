@@ -8,6 +8,7 @@ import Resume from './pages/Resume';
 import PhotoAlbum from './pages/PhotoAlbum';
 import ChatGPTComponent from './pages/ChatBot';
 import LoadingPage from './pages/LoadingPage';
+import TrainingChatBox from './pages/TrainingChatBox';
 
 export default function App() {
     return (
@@ -20,6 +21,7 @@ export default function App() {
                 <Route path="skill" element={<Skill />} />
                 <Route path="resume" element={<Resume />} />
                 <Route path="photo" element={<PhotoAlbum />}/>
+                <Route path="/trainingChatBox" element={<TrainingChatBox />}/>
                 <Route path="/loading" element={<LoadingPage />}/>
             </Routes>
         </div>
