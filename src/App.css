@@ -605,3 +605,30 @@ p{
     transform: translateY(0px);
   }
 }
+
+.resume-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  overflow: hidden; /* This prevents any overflow from the hover effect */
+}
+
+.resume-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.download-button {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .resume-container img {
+    width: 100%;
+    height: auto;
+  }
+}
