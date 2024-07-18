@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
-
 body {
   background-image: url('/src/logos/background.jpg');
   background-repeat: no-repeat;
@@ -103,6 +102,7 @@ body {
   position: relative;
   clip-path: circle(32% at 50% 43%);
   cursor: pointer;
+  animation: float 3s ease-in-out infinite;
 
 }
 
@@ -112,6 +112,10 @@ body {
   height: 150px;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.image-container:hover {
+  animation: pulse 0.5s ease-in-out;
 }
 
 .image-container.flipped img {
@@ -578,5 +582,26 @@ p{
   /* Define your light mode styles here */
 }
  /***** End Section *****/
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
- 
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

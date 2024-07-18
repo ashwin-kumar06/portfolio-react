@@ -5,7 +5,7 @@ import ChatBot from './ChatBot';
 import React, { useEffect, useState } from "react";
 import Typed from 'typed.js'
 import '../App.css';
-
+import 'animate.css';
 export default function Home() {
 
 
@@ -26,16 +26,20 @@ export default function Home() {
 
   const [flippedImages, setFlippedImages] = useState([false, false, false, false, false, false]);
   const [flippedImageNames, setFlippedImageNames] = useState([false, false, false, false, false, false]);
+  const [animatedIndex, setAnimatedIndex] = useState(null);
 
   const handleFlipClick = (index) => {
     const newFlippedImages = flippedImages.map((status, i) => (i === index ? !status : status));
     setFlippedImages(newFlippedImages);
     const newFlippedImageNames = flippedImageNames.map((status, i) => (i === index ? !status : status));
     setFlippedImageNames(newFlippedImageNames);
+    setAnimatedIndex(index);
+    setTimeout(() => setAnimatedIndex(null), 1000); // Reset after animation
   }
 
   return (
     <div className={`Home`}>
+
       <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
           <a class="navbar-brand" href="/home"><img src={logo} alt="Logo" class="rounded-circle" style={{ width: 50 }} /></a>
@@ -58,31 +62,18 @@ export default function Home() {
           <h1>I'm <span class="auto-type"></span></h1>
         </div>
         <div className="hexagon-container col">
-          <div className={`image-container ${flippedImages[0] ? 'flipped' : ''} i0`} onMouseEnter={() => handleFlipClick(0)} onMouseLeave={() => handleFlipClick(0)} >
+        {[0, 1, 2, 3, 4, 5].map((index) => (
+          <div 
+            key={index}
+            className={`image-container ${flippedImages[index] ? 'flipped' : ''} i${index} ${animatedIndex === index ? 'animate__animated animate__rubberBand' : ''}`} 
+            onMouseEnter={() => handleFlipClick(index)} 
+            onMouseLeave={() => handleFlipClick(index)}
+          >
             <img src={pics} alt="Flippable" />
-            {flippedImageNames[0] && <a className="image-name" href="/photo">Photo lab</a>}
+            {flippedImageNames[index] && <a className="image-name" href={getHref(index)}>{getName(index)}</a>}
           </div>
-          <div class='i1' className={`image-container ${flippedImages[1] ? 'flipped' : ''} i1`} onMouseEnter={() => handleFlipClick(1)} onMouseLeave={() => handleFlipClick(1)} >
-            <img src={pics} alt="Flippable" />
-            {flippedImageNames[1] && <a className="image-name" href="https://www.instagram.com/_its_ashwin_kumar_/#">Instagram</a>}
-          </div>
-          <div class='i2' className={`image-container ${flippedImages[2] ? 'flipped' : ''} i2`} onMouseEnter={() => handleFlipClick(2)} onMouseLeave={() => handleFlipClick(2)} >
-            <img src={pics} alt="Flippable" />
-            {flippedImageNames[2] && <a className="image-name" href="https://www.linkedin.com/in/ashwin-kumar-7a6a7b23a/">Linkedin</a>}
-          </div>
-          <div class='i3' className={`image-container ${flippedImages[3] ? 'flipped' : ''} i3`} onMouseEnter={() => handleFlipClick(3)} onMouseLeave={() => handleFlipClick(3)} >
-            <img src={pics} alt="Flippable" />
-            {flippedImageNames[3] && <a className="image-name" href="/resume">Resume</a>}
-          </div>
-          <div class='i4' className={`image-container ${flippedImages[4] ? 'flipped' : ''} i4`} onMouseEnter={() => handleFlipClick(4)} onMouseLeave={() => handleFlipClick(4)} >
-            <img src={pics} alt="Flippable" />
-            {flippedImageNames[4] && <a className="image-name" href="/skill">Skil Gallery</a>}
-          </div>
-          <div class='i5' className={`image-container ${flippedImages[5] ? 'flipped' : ''} i5`} onMouseEnter={() => handleFlipClick(5)} onMouseLeave={() => handleFlipClick(5)} >
-            <img src={pics} alt="Flippable" />
-            {flippedImageNames[5] && <a className="image-name"></a>}
-          </div>
-        </div>
+        ))}
+      </div>
       </div>
       <ChatBot/>
       <script src="script.js"></script>
@@ -90,3 +81,12 @@ export default function Home() {
   );
 }
 
+function getHref(index) {
+  const hrefs = ["/photo", "https://www.instagram.com/_its_ashwin_kumar_/#", "https://www.linkedin.com/in/ashwin-kumar-7a6a7b23a/", "/resume", "/skill", "#"];
+  return hrefs[index];
+}
+
+function getName(index) {
+  const names = ["Photo lab", "Instagram", "Linkedin", "Resume", "Skill Gallery", ""];
+  return names[index];
+}
