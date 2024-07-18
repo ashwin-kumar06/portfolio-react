@@ -1,86 +1,116 @@
+import React, { useState } from "react";
+import { 
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Container, 
+  Box, 
+  ImageList, 
+  ImageListItem, 
+  Modal,
+  IconButton,
+  useMediaQuery
+} from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
+import logo from '../logos/logo.jpg';
+import photos from '../photosdata';
 
-import logo from '../logos/logo.jpg'
+const StyledImageListItem = styled(ImageListItem)(({ theme }) => ({
+  overflow: 'hidden',
+  '& img': {
+    transition: 'transform 0.3s ease-in-out',
+  },
+  '&:hover img': {
+    transform: 'scale(1.1)',
+  },
+}));
 
-import React from "react";
-import photos from '../photosdata'
-import '../App.css';
+const ModalImage = styled('img')({
+  maxHeight: '90vh',
+  maxWidth: '90vw',
+  objectFit: 'contain',
+});
 
 export default function PhotoAlbum() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleOpenModal = (image) => {
+    setSelectedImage(image);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const allPhotos = Object.values(photos);
 
   return (
-    <div className="Home" >
-      <nav class="navbar navbar-expand-sm">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/home"><img src={logo} alt="Logo" class="rounded-circle" style={{ width: 50 }} /></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
-            <ul class="navbar-nav ">
-              <li class="nav-item ">
-                <a class="nav-link " href="/home">Home</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div className="photo-gallery">
-        <div className="gallery container-fluid">
-          <div className="row">
-            <div className="col-4">
-              <img src={photos.image1} alt="1" />
-              <img src={photos.image2} alt="2" />
-              <img src={photos.image4} alt="4" />
-              <img src={photos.image5} alt="5" />
-              <img src={photos.image6} alt="6" />
-              <img src={photos.image7} alt="7" />
-              <img src={photos.image8} alt="8" />
-              <img src={photos.image9} alt="9" />
-              <img src={photos.image10} alt="10" />
-              <img src={photos.image11} alt="11" />
-              <img src={photos.image13} alt="13" />
-              <img src={photos.image14} alt="14" />
-              <img src={photos.image16} alt="16" />
-              <img src={photos.image17} alt="17" />
-              <img src={photos.image18} alt="18" />
-            </div>
-            <div className="col-4">
-              <img src={photos.image19} alt="19" />
-              <img src={photos.image20} alt="20" />
-              <img src={photos.image21} alt="21" />
-              <img src={photos.image22} alt="22" />
-              <img src={photos.image23} alt="23" />
-              <img src={photos.image24} alt="17" />
-              <img src={photos.image25} alt="18" />
-              <img src={photos.image26} alt="19" />
-              <img src={photos.image27} alt="20" />
-              <img src={photos.image28} alt="21" />
-              <img src={photos.image29} alt="22" />
-              <img src={photos.image30} alt="23" />
-              <img src={photos.image31} alt="23" />
-              <img src={photos.image32} alt="23" />
-              <img src={photos.image33} alt="3" />
-              <img src={photos.image34} alt="4" />
-            </div>
-            <div className="col-4">
-              <img src={photos.image35} alt="5" />
-              <img src={photos.image36} alt="6" />
-              <img src={photos.image37} alt="7" />
-              <img src={photos.image38} alt="8" />
-              <img src={photos.image39} alt="9" />
-              <img src={photos.image40} alt="10" />
-              <img src={photos.image41} alt="11" />
-              <img src={photos.image44} alt="14" />
-              <img src={photos.image46} alt="16" />
-              <img src={photos.image47} alt="16" />
-              <img src={photos.image48} alt="16" />
-              <img src={photos.image49} alt="16" />
-              <img src={photos.image50} alt="16" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Box sx={{ flexGrow: 1, bgcolor: 'background.default', minHeight: '100vh' }}>
+      <AppBar position="static" color="transparent" elevation={0}>
+        <Toolbar>
+          <img src={logo} alt="Logo" style={{ width: 50, height: 50, marginRight: 10, borderRadius: '50%' }} />
+          
+          <IconButton color="inherit" href="/home">
+            Home
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Container  sx={{ mt: 4, mb: 4 }}>
+        <Typography variant="h2" gutterBottom align="center" sx={{ mb: 4 }}>
+          My Photo Gallery
+        </Typography>
+
+        <ImageList variant="masonry" cols={isMobile ? 2 : 3} gap={8}>
+          {allPhotos.map((item, index) => (
+            <StyledImageListItem key={index} onClick={() => handleOpenModal(item)}>
+              <img
+                src={item}
+                alt={`Gallery image ${index + 1}`}
+                loading="lazy"
+                style={{ cursor: 'pointer' }}
+              />
+            </StyledImageListItem>
+          ))}
+        </ImageList>
+      </Container>
+
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+          outline: 'none',
+        }}>
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseModal}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          {selectedImage && <ModalImage src={selectedImage} alt="Selected" />}
+        </Box>
+      </Modal>
+    </Box>
   );
 }
-

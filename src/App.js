@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -12,6 +13,7 @@ import TrainingChatBox from './pages/TrainingChatBox';
 
 export default function App() {
     return (
+        
         <div className="App">
             <Routes>
                 <Route path="/portfolio-react" element={<Home />} />

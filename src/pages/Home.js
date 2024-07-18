@@ -7,11 +7,6 @@ import Typed from 'typed.js'
 import '../App.css';
 
 export default function Home() {
-  const [mode, setMode] = useState('light');
-
-  const toggleMode = () => {
-    setMode(mode === 'light' ? 'dark' : 'light');
-  }
 
 
   useEffect(() => {
@@ -40,8 +35,7 @@ export default function Home() {
   }
 
   return (
-    <div className={`Home ${mode === 'dark' ? 'dark-mode' : ''}`}>
-
+    <div className={`Home`}>
       <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
           <a class="navbar-brand" href="/home"><img src={logo} alt="Logo" class="rounded-circle" style={{ width: 50 }} /></a>
@@ -92,7 +86,6 @@ export default function Home() {
       </div>
       <ChatBot/>
       <script src="script.js"></script>
-      <button onClick={toggleMode}>Toggle Mode</button>
     </div>
   );
 }
