@@ -21,10 +21,9 @@ export default function ChatBot() {
             {isOpen ? (
                 <div className='ChatBox d-flex' >
                     <div className='close-chat' onClick={() => { closeChatBox() }} style={{cursor:'pointer'}}>
-                        <p>Close me</p>
                         <img src={bot} style={{ width: 300 }} className='chatbot-img' />
                     </div>
-                    <ChatBox />
+                    <ChatBox isOpen={isOpen} onClose={closeChatBox} />
                 </div>
             ) : (
                 <div className={`chatbot-container ${isOpen ? 'open' : ''}`} onClick={() => { toggleChatBox()}}>
