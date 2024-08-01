@@ -13,10 +13,45 @@ import {
   createTheme,
   CssBaseline,
 } from '@mui/material';
-import { styled } from '@mui/system';
+// import { styled } from '@mui/system';
+import styled, { keyframes } from 'styled-components';
 import { motion } from "framer-motion";
 import HomeIcon from '@mui/icons-material/Home';
 import logo from '../logos/logo.jpg';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+
+const Section = styled(motion.section)`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+`;
+
+const SkillsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+`;
+
+const skillsData = [
+  { name: 'JavaScript', level: 90 },
+  { name: 'React', level: 85 },
+  { name: 'Node.js', level: 80 },
+  { name: 'Python', level: 75 },
+  { name: 'SQL', level: 70 },
+];
+
+const SkillCard = styled(motion.div)`
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  width: 150px;
+`;
 
 const darkTheme = createTheme({
   palette: {
@@ -130,6 +165,26 @@ export default function Skill() {
               </Grid>
             ))}
           </Grid>
+
+          <Section id="skills">
+        <h2>Skills</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={skillsData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="level" fill="#00bcd4" />
+          </BarChart>
+        </ResponsiveContainer>
+        <SkillsContainer>
+          {skillsData.map((skill, index) => (
+            <SkillCard key={index} whileHover={{ scale: 1.05 }}>
+              <h3>{skill.name}</h3>
+              <p>{skill.level}%</p>
+            </SkillCard>
+          ))}
+        </SkillsContainer>
+      </Section>
         </Container>
       </Box>
     </ThemeProvider>

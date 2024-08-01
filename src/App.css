@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 body {
   background-image: url('/src/logos/background.jpg');
   background-repeat: no-repeat;
@@ -36,7 +35,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
 
 .content h2 {
@@ -103,7 +101,6 @@ body {
   clip-path: circle(32% at 50% 43%);
   cursor: pointer;
   animation: float 3s ease-in-out infinite;
-
 }
 
 .image-container img {
