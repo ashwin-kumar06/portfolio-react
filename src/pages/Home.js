@@ -248,10 +248,10 @@ export default function HomePage() {
         <Logo>AK</Logo>
         <Nav>
           <NavLink href="/about">About</NavLink>
-          <NavLink href="/skills">Skills</NavLink>
-          <NavLink href="/projects">Projects</NavLink>
+          <NavLink href="/skill">Skills</NavLink>
+          <NavLink href="#projects">Projects</NavLink>
           <NavLink href="/photo">Photo Lab</NavLink>
-          <NavLink href="/contact">Contact</NavLink>
+          <NavLink href="#contact">Contact</NavLink>
         </Nav>
       </Header>
 
@@ -308,6 +308,7 @@ export default function HomePage() {
           </NavButton>
         </SummarySection>
       </Section>
+              
       <Section id="projects">
         <h2>Projects</h2>
         <ProjectsGrid>
@@ -339,6 +340,7 @@ export default function HomePage() {
           </ProjectCard>
         </ProjectsGrid>
       </Section>
+                  
       <Section id="contact">
         <h2>Contact Me</h2>
         <ContactForm>
