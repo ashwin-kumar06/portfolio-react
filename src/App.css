@@ -1,5 +1,5 @@
 body {
-  background-image: url('/src/logos/background.jpg');
+  /* background-image: url('/src/logos/background.jpg'); */
   background-repeat: no-repeat;
   background-size: 100%;
   zoom: 80%;
@@ -425,9 +425,8 @@ body {
 
 .chatbot-container {
   cursor: pointer;
-  position: fixed;
-  bottom: 20px; /* Adjust this value to position the chatbot vertically */
-  left: -200px; /* Start position off the screen */
+
+  bottom: 20px; 
   animation: moveRight 10s linear infinite; /* Adjust animation duration and timing function as needed */
   transition: left 0.5s ease;
 }

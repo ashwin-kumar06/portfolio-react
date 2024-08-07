@@ -5,7 +5,6 @@ import {
   Typography, 
   Container, 
   Box, 
-  LinearProgress, 
   Grid,
   Paper,
   IconButton,
@@ -13,12 +12,11 @@ import {
   createTheme,
   CssBaseline,
 } from '@mui/material';
-// import { styled } from '@mui/system';
-import styled, { keyframes } from 'styled-components';
+import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import HomeIcon from '@mui/icons-material/Home';
 import logo from '../logos/logo.jpg';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const Section = styled(motion.section)`
   min-height: 100vh;
@@ -29,29 +27,32 @@ const Section = styled(motion.section)`
   padding: 2rem;
 `;
 
-const SkillsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+const SkillsContainer = styled(Grid)`
   margin-top: 2rem;
 `;
 
 const skillsData = [
   { name: 'JavaScript', level: 90 },
   { name: 'React', level: 85 },
+  { name: 'HTML 5', level: 90 },
+  { name: 'CSS 3', level: 85 },
   { name: 'Node.js', level: 80 },
+  { name: 'MySQL', level: 80 },
   { name: 'Python', level: 75 },
-  { name: 'SQL', level: 70 },
+  { name: '.Net C#', level: 60 },
 ];
 
-const SkillCard = styled(motion.div)`
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  width: 150px;
-`;
+const SkillCard = styled(motion(Paper))(({ theme }) => ({
+  padding: theme.spacing(2),
+  textAlign: 'center',
+  color: theme.palette.text.primary,
+  background: theme.palette.background.paper,
+  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+    boxShadow: `0 10px 20px ${theme.palette.primary.main}33`,
+  },
+}));
 
 const darkTheme = createTheme({
   palette: {
@@ -78,50 +79,19 @@ const darkTheme = createTheme({
   },
 });
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(3),
-  textAlign: 'left',
-  color: theme.palette.text.primary,
-  background: theme.palette.background.paper,
-  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-  '&:hover': {
-    transform: 'translateY(-5px)',
-    boxShadow: `0 10px 20px ${theme.palette.primary.main}33`,
-  },
-}));
-
-const SkillBar = ({ skill, percentage }) => {
-  return (
-    <Box sx={{ my: 2 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-        <Typography variant="body1">{skill}</Typography>
-        <Typography variant="body2">{percentage}%</Typography>
-      </Box>
-      <LinearProgress
-        variant="determinate"
-        value={percentage}
-        sx={{
-          height: 10,
-          borderRadius: 5,
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          '& .MuiLinearProgress-bar': {
-            borderRadius: 5,
-            backgroundImage: 'linear-gradient(45deg, #BB86FC, #03DAC6)',
-          },
-        }}
-      />
-    </Box>
-  );
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <Paper sx={{ p: 1 }}>
+        <Typography variant="body2">{`${label} : ${payload[0].value}%`}</Typography>
+      </Paper>
+    );
+  }
+  return null;
 };
 
 export default function Skill() {
-  const skills = [
-    { name: "HTML 5", percentage: 90 },
-    { name: "CSS 3", percentage: 85 },
-    { name: "React Js", percentage: 80 },
-    { name: "MySQL", percentage: 80 },
-    { name: ".Net C#", percentage: 60 },
-  ];
+  const colors = ['#BB86FC', '#03DAC6', '#CF6679', '#4CAF50', '#FFC107', '#2196F3', '#9C27B0', '#F44336'];
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -130,13 +100,13 @@ export default function Skill() {
         <AppBar position="static" color="transparent" elevation={0}>
           <Toolbar>
             <img src={logo} alt="Logo" style={{ width: 50, height: 50, marginRight: 10, borderRadius: '50%' }} />
-            <IconButton color="inherit" href="/home">
+            <IconButton color="inherit" href="/home" aria-label="Home">
               <HomeIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
 
-        <Container maxWidth="md" sx={{ mt: 8, mb: 4 }}>
+        <Container maxWidth="lg" sx={{ mt: 8, mb: 4 }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,41 +120,38 @@ export default function Skill() {
             </Typography>
           </motion.div>
 
-          <Grid container spacing={4}>
-            {skills.map((skill, index) => (
-              <Grid item xs={12} sm={6} key={index}>
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <StyledPaper elevation={3}>
-                    <SkillBar skill={skill.name} percentage={skill.percentage} />
-                  </StyledPaper>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
-
           <Section id="skills">
-        <h2>Skills</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={skillsData}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="level" fill="#00bcd4" />
-          </BarChart>
-        </ResponsiveContainer>
-        <SkillsContainer>
-          {skillsData.map((skill, index) => (
-            <SkillCard key={index} whileHover={{ scale: 1.05 }}>
-              <h3>{skill.name}</h3>
-              <p>{skill.level}%</p>
-            </SkillCard>
-          ))}
-        </SkillsContainer>
-      </Section>
+            <Box sx={{ width: '100%', height: 400 }}>
+              <ResponsiveContainer>
+                <BarChart data={skillsData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <XAxis type="number" domain={[0, 100]} />
+                  <YAxis dataKey="name" type="category" width={100} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar dataKey="level" fill="#8884d8">
+                    {skillsData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </Box>
+            <SkillsContainer container spacing={3}>
+              {skillsData.map((skill, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <SkillCard elevation={3}>
+                      <Typography variant="h6">{skill.name}</Typography>
+                      <Typography variant="body1" color="primary">{`${skill.level}%`}</Typography>
+                    </SkillCard>
+                  </motion.div>
+                </Grid>
+              ))}
+            </SkillsContainer>
+          </Section>
         </Container>
       </Box>
     </ThemeProvider>
