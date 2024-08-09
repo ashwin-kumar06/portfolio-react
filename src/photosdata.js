@@ -18,16 +18,19 @@ import i27 from './Images/27.jpg';import i37 from './Images/37.jpg'
 import i28 from './Images/28.jpg';import i38 from './Images/38.jpg'
 import i29 from './Images/29.jpg';import i39 from './Images/39.jpg'
 import i30 from './Images/30.jpg';import i40 from './Images/40.jpg'
-import i41 from './Images/41.jpg'
-import i42 from './Images/42.jpg'
-import i43 from './Images/43.jpg'
-import i44 from './Images/44.jpg'
-import i45 from './Images/45.jpg'
-import i46 from './Images/46.jpg'
-import i47 from './Images/47.jpg'
-import i48 from './Images/48.jpg'
-import i49 from './Images/49.jpg'
-import i50 from './Images/50.jpg'
+import i41 from './Images/41.jpg';import i51 from './Images/51.jpg';
+import i42 from './Images/42.jpg';import i52 from './Images/52.jpg';
+import i43 from './Images/43.jpg';import i53 from './Images/53.jpg';
+import i44 from './Images/44.jpg';import i54 from './Images/54.jpg';
+import i45 from './Images/45.jpg';import i55 from './Images/55.jpg';
+import i46 from './Images/46.jpg';import i56 from './Images/56.jpg';
+import i47 from './Images/47.jpg';import i57 from './Images/57.jpg';
+import i48 from './Images/48.jpg';import i58 from './Images/58.jpg';
+import i49 from './Images/49.jpg';import i59 from './Images/59.jpg';
+import i50 from './Images/50.jpg';import i60 from './Images/60.jpg';
+import i61 from './Images/61.jpg';
+import i62 from './Images/62.jpg';
+
 
 const photosdata = {
     image1: i1,image11: i11,
@@ -50,16 +53,18 @@ const photosdata = {
     image28: i28,image38: i38,
     image29: i29,image39: i39,
     image30: i30,image40: i40,
-    image41: i41,
-    image42: i42,
-    image43: i43,
-    image44: i44,
-    image45: i45,
-    image46: i46,
-    image47: i47,
-    image48: i48,
-    image49: i49,
-    image50: i50
+    image41: i41,image51: i51,
+    image42: i42,image52: i52,
+    image43: i43,image53: i53,
+    image44: i44,image54: i54,
+    image44: i45,image55: i55,
+    image46: i46,image56: i56,
+    image47: i47,image57: i57,
+    image48: i48,image58: i58,
+    image49: i49,image59: i59,
+    image50: i50,image60: i60,
+    image61: i61,
+    image62: i62,
 };
 
 export default photosdata;
