@@ -11,6 +11,8 @@ import ChatGPTComponent from './pages/ChatBot';
 import LoadingPage from './pages/LoadingPage';
 import TrainingChatBox from './pages/TrainingChatBox';
 import LearningExperiencePlatform from './pages/Projects/Lxp';
+import OnlineAuctionSystem from './pages/Projects/Oas';
+import NutritionAssistantApplication from './pages/Projects/Naa';
 
 export default function App() {
     return (
@@ -25,8 +27,8 @@ export default function App() {
                 <Route path="resume" element={<Resume />} />
                 <Route path="photo" element={<PhotoAlbum />}/>
                 <Route path="lxp" element={<LearningExperiencePlatform />}/>
-                <Route path="oas" element={<PhotoAlbum />}/>
-                <Route path="naa" element={<PhotoAlbum />}/>
+                <Route path="oas" element={<OnlineAuctionSystem />}/>
+                <Route path="naa" element={<NutritionAssistantApplication />}/>
                 <Route path="/trainingChatBox" element={<TrainingChatBox />}/>
                 <Route path="/loading" element={<LoadingPage />}/>
             </Routes>
