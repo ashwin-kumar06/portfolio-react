@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import about from '../logos/about me.jpg'
+import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import Typed from 'typed.js';
@@ -530,19 +531,25 @@ export default function HomePage() {
           <ProjectsGrid>
             {[
               {
+                link: "/lxp",
                 title: "Learning Experience Platform",
                 description: "Learning Experience Platform (LXP) delivers personalized, engaging learning experiences. It supports diverse learning styles, and uses analytics to optimize outcomes for corporate training, professional development, and education."
               },
               {
+                link: '/oas',
                 title: "Online Auction System",
                 description: "Online Auction System provides secure, efficient auctions with real-time bidding and robust analytics, ensuring transparency and user-friendly navigation for all"
               },
               {
+                link: "/naa",
                 title: "Nutrition Assistant Application",
                 description: "This project aims at building a web app that automatically estimates food attributes such as ingredients and nutritional value by classifying the input image of the food"
               }
             ].map((project, index) => (
               <ProjectCard
+                as={Link}
+                style={{textDecoration:'none'}}
+                to={project.link}
                 key={project.title}
                 whileHover={{ scale: 1.05 }}
                 initial={{ opacity: 0, y: 50 }}
