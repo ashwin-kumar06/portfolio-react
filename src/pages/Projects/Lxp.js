@@ -76,7 +76,7 @@ export default function LearningExperiencePlatform() {
           >
             <Button
               component={Link}
-              to="/"
+              to="/home"
               startIcon={<ArrowBackIcon />}
               sx={{ mb: 2 }}
             >
