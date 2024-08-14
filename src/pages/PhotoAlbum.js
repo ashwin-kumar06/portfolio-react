@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from "react";
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Container, 
-  Box, 
-  ImageList, 
-  ImageListItem, 
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Box,
+  ImageList,
+  ImageListItem,
   Modal,
   IconButton,
   useMediaQuery,
@@ -58,10 +58,10 @@ export default function PhotoAlbum() {
     <Box sx={{ flexGrow: 1, bgcolor: 'background.default', minHeight: '100vh' }}>
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
-          <img 
-            src={logo} 
-            alt="Logo" 
-            style={{ width: 50, height: 50, marginRight: 10, borderRadius: '50%' }} 
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ width: 50, height: 50, marginRight: 10, borderRadius: '50%' }}
           />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             My Photo Gallery
@@ -80,8 +80,8 @@ export default function PhotoAlbum() {
         <ImageList variant="masonry" cols={isMobile ? 2 : 3} gap={16}>
           <AnimatePresence>
             {allPhotos.map((item, index) => (
-              <StyledImageListItem 
-                key={index} 
+              <StyledImageListItem
+                key={index}
                 onClick={() => handleOpenModal(item)}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

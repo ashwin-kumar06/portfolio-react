@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import about from '../logos/about me.jpg'
 import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import Typed from 'typed.js';
-import { FaLinkedin, FaCameraRetro, FaGithub, FaEnvelope, FaArrowRight, FaInstagram, FaLaptopCode, FaServer, FaMobileAlt, FaDatabase } from 'react-icons/fa';
+import { FaLinkedin, FaCameraRetro, FaGithub, FaEnvelope, FaArrowRight, FaInstagram, FaLaptopCode, FaServer, FaMobileAlt, FaDatabase, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ChatBot from './ChatBot';
 
 const GlobalStyle = createGlobalStyle`
@@ -268,12 +268,6 @@ const Footer = styled(motion.footer)`
   font-size: 1.1rem;
 `;
 
-const SkillsChart = styled(motion.div)`
-  width: 100%;
-  height: 300px;
-  margin-top: 2rem;
-`;
-
 const AboutContent = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
@@ -295,48 +289,116 @@ const AboutImage = styled(motion.img)`
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 `;
 
-const SkillsGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+
+// -------
+const floatAnimation = keyframes`
+  0% { transform: translateY(0px) rotateX(-20deg) rotateY(0deg); }
+  50% { transform: translateY(-20px) rotateX(-10deg) rotateY(180deg); }
+  100% { transform: translateY(0px) rotateX(-20deg) rotateY(360deg); }
 `;
 
-const SkillCard = styled(motion.div)`
-  background-color: rgba(46, 35, 108, 0.3);
-  border-radius: 15px;
-  padding: 1.5rem;
+const CubeContainer = styled.div`
+  width: 300px;
+  height: 300px;
+  position: relative;
+  perspective: 1000px;
+  margin: 100px auto;
+`;
+
+const Cube = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  animation: ${floatAnimation} 20s infinite linear;
+  transition: transform 0.5s;
+`;
+
+const CubeFace = styled.div`
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border: 2px solid rgba(200, 172, 214, 0.3);
+  background: rgba(46, 35, 108, 0.7);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  transition: all 0.3s ease;
+  justify-content: center;
+  font-size: 1.5em;
+  box-shadow: 0 0 20px rgba(200, 172, 214, 0.3);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s;
 
   &:hover {
-    background-color: rgba(67, 61, 139, 0.5);
-    transform: translateY(-5px);
+    background: rgba(67, 61, 139, 0.8);
+    box-shadow: 0 0 30px rgba(200, 172, 214, 0.5);
   }
 `;
 
-const SkillIcon = styled.div`
-  font-size: 2.5rem;
+const SkillContent = styled.div`
+  text-align: center;
+  padding: 20px;
   color: #C8ACD6;
-  margin-bottom: 1rem;
 `;
 
-const SkillTitle = styled.h4`
+const ControlButton = styled.button`
+  position: absolute;
+  top: 50%;
+  background: none;
+  border: none;
   color: #C8ACD6;
-  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #433D8B;
+  }
+
+  &.left { left: -50px; }
+  &.right { right: -50px; }
 `;
 
-const SkillDescription = styled.p`
-  color: #A89EC2;
-  font-size: 0.9rem;
-`;
-
+const skills = [
+  {
+    icon: FaLaptopCode,
+    title: "Front-end",
+    description: "React, JavaScript, HTML5, CSS3"
+  },
+  {
+    icon: FaServer,
+    title: "Back-end",
+    description: "ASP.NET Core, C#, RESTful APIs"
+  },
+  {
+    icon: FaDatabase,
+    title: "Database",
+    description: "SQL, MySQL, Database Design"
+  },
+  {
+    icon: FaMobileAlt,
+    title: "Mobile",
+    description: "React Native, Cross-platform"
+  }
+];
 
 export default function HomePage() {
   const typedRef = useRef(null);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [cubeRotation, setCubeRotation] = useState(0);
+
+  useEffect(() => {
+    setCubeRotation(currentIndex * -90);
+  }, [currentIndex]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + skills.length) % skills.length);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % skills.length);
+  };
 
   useEffect(() => {
     const typed = new Typed(typedRef.current, {
@@ -483,30 +545,21 @@ export default function HomePage() {
           >
             <SectionTitle>Skills</SectionTitle>
             <SectionContent>
-              As a full-stack developer, I've honed a diverse set of skills that allow me to build complete, scalable web applications. Here's an overview of my technical expertise:
+              As a full-stack developer, I've honed a diverse set of skills that allow me to build complete, scalable web applications.
             </SectionContent>
-            <SkillsGrid>
-              <SkillCard whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <SkillIcon><FaLaptopCode /></SkillIcon>
-                <SkillTitle>Front-end Development</SkillTitle>
-                <SkillDescription>Proficient in React js, JavaScript, HTML5, and CSS3. Experienced in building responsive and intuitive user interfaces.</SkillDescription>
-              </SkillCard>
-              <SkillCard whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <SkillIcon><FaServer /></SkillIcon>
-                <SkillTitle>Back-end Development</SkillTitle>
-                <SkillDescription>Skilled in Asp .Net Core and C#. Capable of designing and implementing RESTful APIs and server-side logic.</SkillDescription>
-              </SkillCard>
-              <SkillCard whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <SkillIcon><FaDatabase /></SkillIcon>
-                <SkillTitle>Database Management</SkillTitle>
-                <SkillDescription>Experienced with SQL and MySQL databases. Proficient in database design and optimization.</SkillDescription>
-              </SkillCard>
-              <SkillCard whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <SkillIcon><FaMobileAlt /></SkillIcon>
-                <SkillTitle>Mobile Development</SkillTitle>
-                <SkillDescription>Familiar with React Native for cross-platform mobile app development. Passionate about creating seamless mobile experiences.</SkillDescription>
-              </SkillCard>
-            </SkillsGrid>
+            <CubeContainer>
+              <Cube style={{ transform: `rotateY(${cubeRotation}deg)` }}>
+                {skills.map((skill, index) => (
+                  <CubeFace key={index} style={{ transform: `rotateY(${index * 90}deg) translateZ(150px)` }}>
+                    <SkillContent>
+                      <skill.icon size={50} />
+                      <h3>{skill.title}</h3>
+                      <p style={{fontSize:15}}>{skill.description}</p>
+                    </SkillContent>
+                  </CubeFace>
+                ))}
+              </Cube>
+            </CubeContainer>
             <SectionContent style={{ marginTop: '2rem' }}>
               I'm always eager to learn and adapt to new technologies, keeping myself updated with the latest trends in software development.
             </SectionContent>
@@ -548,7 +601,7 @@ export default function HomePage() {
             ].map((project, index) => (
               <ProjectCard
                 as={Link}
-                style={{textDecoration:'none'}}
+                style={{ textDecoration: 'none' }}
                 to={project.link}
                 key={project.title}
                 whileHover={{ scale: 1.05 }}

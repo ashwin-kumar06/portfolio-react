@@ -16,7 +16,6 @@ import NutritionAssistantApplication from './pages/Projects/Naa';
 
 export default function App() {
     return (
-        
         <div className="App">
             <Routes>
                 <Route path="/portfolio-react" element={<Home />} />
@@ -25,12 +24,12 @@ export default function App() {
                 <Route path="contact" element={<Contact />} />
                 <Route path="skill" element={<Skill />} />
                 <Route path="resume" element={<Resume />} />
-                <Route path="photo" element={<PhotoAlbum />}/>
-                <Route path="lxp" element={<LearningExperiencePlatform />}/>
-                <Route path="oas" element={<OnlineAuctionSystem />}/>
-                <Route path="naa" element={<NutritionAssistantApplication />}/>
-                <Route path="/trainingChatBox" element={<TrainingChatBox />}/>
-                <Route path="/loading" element={<LoadingPage />}/>
+                <Route path="photo" element={<PhotoAlbum />} />
+                <Route path="lxp" element={<LearningExperiencePlatform />} />
+                <Route path="oas" element={<OnlineAuctionSystem />} />
+                <Route path="naa" element={<NutritionAssistantApplication />} />
+                <Route path="/trainingChatBox" element={<TrainingChatBox />} />
+                <Route path="/loading" element={<LoadingPage />} />
             </Routes>
         </div>
     );

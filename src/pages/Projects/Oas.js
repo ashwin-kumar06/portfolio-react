@@ -1,9 +1,9 @@
 import React from 'react';
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Paper, 
+import {
+  Container,
+  Typography,
+  Box,
+  Paper,
   Grid,
   List,
   ListItem,
