@@ -51,6 +51,22 @@ const ProgressBar = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Track visitor when component mounts
+    const trackVisitor = async () => {
+      try {
+        await fetch('/api/track-visitor', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      } catch (error) {
+        console.error('Error tracking visitor:', error);
+      }
+    };
+
+    trackVisitor();
+
     const intervalId = setInterval(() => {
       setProgress((prevProgress) => {
         if (prevProgress >= 100) {
