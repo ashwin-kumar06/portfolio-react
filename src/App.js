@@ -13,6 +13,7 @@ import TrainingChatBox from './pages/TrainingChatBox';
 import LearningExperiencePlatform from './pages/Projects/Lxp';
 import OnlineAuctionSystem from './pages/Projects/Oas';
 import NutritionAssistantApplication from './pages/Projects/Naa';
+import ViewVisitors from './pages/ViewVisitors';
 
 export default function App() {
     return (
@@ -30,6 +31,7 @@ export default function App() {
                 <Route path="naa" element={<NutritionAssistantApplication />} />
                 <Route path="/trainingChatBox" element={<TrainingChatBox />} />
                 <Route path="/loading" element={<LoadingPage />} />
+                <Route path="/visitors" element={<ViewVisitors />} />
             </Routes>
         </div>
     );
