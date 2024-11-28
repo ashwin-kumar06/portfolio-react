@@ -51,10 +51,9 @@ const ProgressBar = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Track visitor when component mounts
     const trackVisitor = async () => {
       try {
-        await fetch('/api/track-visitor', {
+        await fetch('/pages/api/track-visitor', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
