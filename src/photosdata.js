@@ -2,7 +2,7 @@ import i1 from './Images/1.webp'; import i11 from './Images/11.JPG';
 import i2 from './Images/2.webp'; import i12 from './Images/12.JPG';
 import i3 from './Images/3.webp'; import i13 from './Images/13.JPG';
 import i4 from './Images/4.webp'; import i14 from './Images/14.JPG';
-import i5 from './Images/5.webp'; import i15 from './Images/15.jpg';
+import i5 from './Images/5.webp'; import i15 from './Images/15.JPG';
 import i6 from './Images/6.webp'; import i16 from './Images/16.JPG';
 import i7 from './Images/7.webp'; import i17 from './Images/17.JPG';
 import i8 from './Images/8.webp'; import i18 from './Images/18.JPG';
