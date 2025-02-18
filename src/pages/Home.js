@@ -340,25 +340,6 @@ const SkillContent = styled.div`
   color: #C8ACD6;
 `;
 
-const ControlButton = styled.button`
-  position: absolute;
-  top: 50%;
-  background: none;
-  border: none;
-  color: #C8ACD6;
-  font-size: 2rem;
-  cursor: pointer;
-  z-index: 10;
-  transition: color 0.3s;
-
-  &:hover {
-    color: #433D8B;
-  }
-
-  &.left { left: -50px; }
-  &.right { right: -50px; }
-`;
-
 const skills = [
   {
     icon: FaLaptopCode,
@@ -464,7 +445,7 @@ export default function HomePage() {
                 { icon: FaGithub, name: 'GitHub', href: 'https://github.com/ashwin-kumar06' },
                 { icon: FaLinkedin, name: 'LinkedIn', href: 'https://www.linkedin.com/in/ashwin-kumar-7a6a7b23a/' },
                 { icon: FaInstagram, name: 'Instagram', href: 'https://www.instagram.com/be_artivist/' },
-                { icon: FaEnvelope, name: 'Email', href: 'mailto:ashwinkumar0850@gmail.com' },
+                { icon: FaEnvelope, name: 'My Books', href: '/books' },
                 { icon: FaCameraRetro, name: 'Photo Lab', href: '/photo' },
               ].map((item, index) => (
                 <HexagonButton

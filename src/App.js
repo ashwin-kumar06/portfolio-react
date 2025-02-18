@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Skill from './pages/Skill';
 import Resume from './pages/Resume';
 import PhotoAlbum from './pages/PhotoAlbum';
-import ChatGPTComponent from './pages/ChatBot';
 import LoadingPage from './pages/LoadingPage';
 import TrainingChatBox from './pages/TrainingChatBox';
 import LearningExperiencePlatform from './pages/Projects/Lxp';
 import OnlineAuctionSystem from './pages/Projects/Oas';
 import NutritionAssistantApplication from './pages/Projects/Naa';
 import ViewVisitors from './pages/ViewVisitors';
+import Books from './pages/Book/Books';
+import BookReader from './pages/Book/BookReader';
 
 export default function App() {
     return (
@@ -32,6 +32,8 @@ export default function App() {
                 <Route path="/trainingChatBox" element={<TrainingChatBox />} />
                 <Route path="/loading" element={<LoadingPage />} />
                 <Route path="/visitors" element={<ViewVisitors />} />
+                <Route path="/books" element={<Books />} />
+                <Route path="/book/:id" element={<BookReader />} />
             </Routes>
         </div>
     );
