@@ -112,7 +112,6 @@ export default function ChatBox({ isOpen, onClose }) {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundImage: 'url(https://source.unsplash.com/random/1920x1080/?nature)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'blur(10px)',
@@ -128,6 +127,7 @@ export default function ChatBox({ isOpen, onClose }) {
               flexDirection: 'column',
               bgcolor: 'rgba(255, 255, 255, 0.7)',
               backdropFilter: 'blur(10px)',
+              overflowY: 'scroll'
             }}
           >
             <Box
