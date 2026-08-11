@@ -1,134 +1,176 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
   Typography,
-  Container,
   Box,
-  ImageList,
-  ImageListItem,
   Modal,
   IconButton,
-  useMediaQuery,
-  Fade
+  Button,
+  Fade,
 } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
-import { motion, AnimatePresence } from 'framer-motion';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import logo from '../logos/logo.jpg';
 import photos from '../photosdata';
+import './PhotoAlbum.css';
 
-const StyledImageListItem = styled(motion(ImageListItem))(({ theme }) => ({
-  overflow: 'hidden',
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[2],
-  '& img': {
-    transition: 'transform 0.3s ease-in-out',
-  },
-  '&:hover img': {
-    transform: 'scale(1.05)',
-  },
-}));
+function getCardStyle(distanceFromCenter) {
+  const absDist = Math.abs(distanceFromCenter);
+  const scale = Math.max(0.6, 1 - absDist * 0.12);
+  const opacity = Math.max(0.4, 1 - absDist * 0.2);
+  const zIndex = Math.round(100 - absDist * 10);
 
-const ModalImage = styled('img')({
-  maxHeight: '90vh',
-  maxWidth: '90vw',
-  objectFit: 'contain',
-});
+  return {
+    transform: `scale(${scale})`,
+    opacity,
+    zIndex,
+  };
+}
 
 export default function PhotoAlbum() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
+  const scrollRef = useRef(null);
+  const rafRef = useRef(null);
+  const [cardStyles, setCardStyles] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const handleOpenModal = useCallback((image) => {
+  const allPhotos = Object.values(photos);
+
+  const updateCardStyles = useCallback(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const containerCenter = container.scrollLeft + container.clientWidth / 2;
+    const items = container.querySelectorAll('.photo-album-card');
+
+    const styles = Array.from(items).map((item) => {
+      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+      const distance = (itemCenter - containerCenter) / item.offsetWidth;
+      return getCardStyle(distance);
+    });
+
+    setCardStyles(styles);
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(updateCardStyles);
+  }, [updateCardStyles]);
+
+  useEffect(() => {
+    updateCardStyles();
+    window.addEventListener('resize', updateCardStyles);
+    return () => {
+      window.removeEventListener('resize', updateCardStyles);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [updateCardStyles, allPhotos.length]);
+
+  const handleOpenModal = useCallback((image, index) => {
     setSelectedImage(image);
+    setSelectedIndex(index);
     setOpenModal(true);
   }, []);
+
+  const handlePlayJigsaw = useCallback(() => {
+    if (selectedIndex !== null) {
+      setOpenModal(false);
+      navigate(`/photo/jigsaw/${selectedIndex}`);
+    }
+  }, [selectedIndex, navigate]);
 
   const handleCloseModal = useCallback(() => {
     setOpenModal(false);
   }, []);
 
-  const allPhotos = Object.values(photos);
-
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: 'background.default', minHeight: '100vh' }}>
-      <AppBar position="static" color="transparent" elevation={0}>
+    <Box className="photo-album-page">
+      <AppBar position="static" className="photo-album-header" elevation={0}>
         <Toolbar>
           <img
             src={logo}
             alt="Logo"
             style={{ width: 50, height: 50, marginRight: 10, borderRadius: '50%' }}
           />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#C8ACD6' }}>
             My Photo Gallery
           </Typography>
-          <IconButton color="inherit" href="/home" aria-label="home">
+          <IconButton color="inherit" href="/home" aria-label="home" sx={{ color: '#C8ACD6' }}>
             <HomeIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
 
-      <Container sx={{ mt: 4, mb: 4 }}>
-        <Typography variant="h2" gutterBottom align="center" sx={{ mb: 4 }}>
-          My Photo Gallery
-        </Typography>
-
-        <ImageList variant="masonry" cols={isMobile ? 2 : 3} gap={16}>
-          <AnimatePresence>
-            {allPhotos.map((item, index) => (
-              <StyledImageListItem
-                key={index}
-                onClick={() => handleOpenModal(item)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-              >
-                <img
-                  src={item}
-                  alt={`Gallery image ${index + 1}`}
-                  loading="lazy"
-                  style={{ cursor: 'pointer' }}
-                />
-              </StyledImageListItem>
-            ))}
-          </AnimatePresence>
-        </ImageList>
-      </Container>
+      <Box className="photo-album-carousel-wrapper">
+        <Box
+          className="photo-album-carousel"
+          ref={scrollRef}
+          onScroll={handleScroll}
+        >
+          {allPhotos.map((item, index) => (
+            <Box
+              key={index}
+              className="photo-album-card"
+              style={cardStyles[index] || {}}
+              onClick={() => handleOpenModal(item, index)}
+              role="button"
+              tabIndex={0}
+              aria-label={`View photo ${index + 1}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleOpenModal(item, index);
+                }
+              }}
+            >
+              <img
+                src={item}
+                alt={`Gallery image ${index + 1}`}
+                loading="lazy"
+                draggable={false}
+              />
+            </Box>
+          ))}
+        </Box>
+      </Box>
 
       <Modal
         open={openModal}
         onClose={handleCloseModal}
         closeAfterTransition
+        slotProps={{
+          backdrop: {
+            className: 'photo-album-lightbox-backdrop',
+          },
+        }}
       >
         <Fade in={openModal}>
-          <Box sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-            outline: 'none',
-            borderRadius: theme.shape.borderRadius,
-          }}>
+          <Box className="photo-album-lightbox-content">
             <IconButton
               aria-label="close"
               onClick={handleCloseModal}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
+              className="photo-album-lightbox-close"
             >
               <CloseIcon />
             </IconButton>
-            {selectedImage && <ModalImage src={selectedImage} alt="Selected" />}
+            {selectedImage && (
+              <Box className="photo-album-lightbox-inner">
+                <img src={selectedImage} alt="Selected" />
+                <Button
+                  variant="contained"
+                  className="photo-album-jigsaw-btn"
+                  startIcon={<ExtensionIcon />}
+                  onClick={handlePlayJigsaw}
+                >
+                  Play Jigsaw
+                </Button>
+              </Box>
+            )}
           </Box>
         </Fade>
       </Modal>

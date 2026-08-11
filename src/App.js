@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import Skill from './pages/Skill';
 import Resume from './pages/Resume';
 import PhotoAlbum from './pages/PhotoAlbum';
+import Jigsaw from './pages/Jigsaw';
 import LoadingPage from './pages/LoadingPage';
 import TrainingChatBox from './pages/TrainingChatBox';
 import LearningExperiencePlatform from './pages/Projects/Lxp';
@@ -26,6 +27,7 @@ export default function App() {
                 <Route path="skill" element={<Skill />} />
                 <Route path="resume" element={<Resume />} />
                 <Route path="photo" element={<PhotoAlbum />} />
+                <Route path="photo/jigsaw/:photoIndex" element={<Jigsaw />} />
                 <Route path="lxp" element={<LearningExperiencePlatform />} />
                 <Route path="oas" element={<OnlineAuctionSystem />} />
                 <Route path="naa" element={<NutritionAssistantApplication />} />
