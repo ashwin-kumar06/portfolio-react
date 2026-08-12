@@ -28,14 +28,14 @@ export default function ChatBot() {
             {isOpen ? (
                 <div className='ChatBox d-flex' >
                     <div className='close-chat' onClick={() => { closeChatBox() }} style={{ cursor: 'pointer' }}>
-                        <img src={bot} style={{ width: 250 }} className='chatbot-img' />
+                        <img src={bot} alt="Chatbot" style={{ width: 250 }} className='chatbot-img' />
                     </div>
                     <ChatBox isOpen={isOpen} onClose={closeChatBox} />
                 </div>
             ) : (
                 <div className={`chatbot-container ${isOpen ? 'open' : ''}`} onClick={() => { toggleChatBox() }}>
 
-                    <img src={bot} style={{ width: 250 }} className='chatbot-img' />
+                    <img src={bot} alt="Chatbot" style={{ width: 250 }} className='chatbot-img' />
                     <Title
                         initial={{ y: -50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}

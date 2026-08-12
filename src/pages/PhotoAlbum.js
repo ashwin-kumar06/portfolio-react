@@ -130,7 +130,7 @@ export default function PhotoAlbum() {
             >
               <img
                 src={item}
-                alt={`Gallery image ${index + 1}`}
+                alt={`Gallery ${index + 1}`}
                 loading="lazy"
                 draggable={false}
               />

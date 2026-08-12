@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import about from '../logos/about me.jpg'
 import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import Typed from 'typed.js';
-import { FaLinkedin, FaCameraRetro, FaGithub, FaEnvelope, FaArrowRight, FaInstagram, FaLaptopCode, FaServer, FaMobileAlt, FaDatabase, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaLinkedin, FaCameraRetro, FaGithub, FaEnvelope, FaArrowRight, FaInstagram, FaLaptopCode, FaServer, FaMobileAlt, FaDatabase } from 'react-icons/fa';
 import ChatBot from './ChatBot';
 
 const GlobalStyle = createGlobalStyle`
@@ -366,21 +366,6 @@ const skills = [
 export default function HomePage() {
   const typedRef = useRef(null);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [cubeRotation, setCubeRotation] = useState(0);
-
-  useEffect(() => {
-    setCubeRotation(currentIndex * -90);
-  }, [currentIndex]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + skills.length) % skills.length);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % skills.length);
-  };
-
   useEffect(() => {
     const typed = new Typed(typedRef.current, {
       strings: ["a Junior Software Engineer", "a Developer", "a Problem Solver", "an Innovator"],
@@ -529,7 +514,7 @@ export default function HomePage() {
               As a full-stack developer, I've honed a diverse set of skills that allow me to build complete, scalable web applications.
             </SectionContent>
             <CubeContainer>
-              <Cube style={{ transform: `rotateY(${cubeRotation}deg)` }}>
+              <Cube style={{ transform: 'rotateY(0deg)' }}>
                 {skills.map((skill, index) => (
                   <CubeFace key={index} style={{ transform: `rotateY(${index * 90}deg) translateZ(150px)` }}>
                     <SkillContent>
