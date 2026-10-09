@@ -39,19 +39,16 @@ export default function ChatBox({ isOpen, onClose }) {
   };
 
   const callChatbotAPI = async (message) => {
-    const timeoutDuration = 30000; // 30 seconds
-  
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Request timed out')), timeoutDuration)
-    );
-  
     try {
-      const responsePromise = axios.post('https://myai-1-hx35.onrender.com/chatbot/chat', { message });
-      const response = await Promise.race([responsePromise, timeoutPromise]);
+      const response = await axios.post(
+        'https://consci-v2.onrender.com/chat',
+        { request: message },
+        { timeout: 30000 }
+      );
       return response.data.response;
     } catch (error) {
-      console.error('Error calling chatbot API:', error);
-      return "Sorry, I'm having trouble connecting right now. Please try again later.";
+      console.error('Error calling chatbot API:', error.response?.data ?? error.message);
+      return error.message;
     }
   };
 
