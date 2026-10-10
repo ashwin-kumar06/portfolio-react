@@ -1,42 +1,144 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { 
-  Box, 
-  TextField, 
-  Button, 
-  Paper, 
-  Typography, 
-  Avatar, 
-  CircularProgress,
-  Modal,
-  IconButton
-} from '@mui/material';
-import { Send as SendIcon, Person as PersonIcon, Close as CloseIcon } from '@mui/icons-material';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaWindowClose, FaRegWindowMaximize, FaWindowMinimize, FaPaperPlane } from 'react-icons/fa';
+import { COLORS } from '../constant';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#2196f3',
-    },
-    secondary: {
-      main: '#ff4081',
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-  },
-});
+const ModalOverlay = styled(motion.div)`
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+`;
+
+const RetroWindow = styled(motion.div)`
+  background: ${COLORS.lightSage};
+  border: 3px solid #000;
+  box-shadow: 10px 10px 0px #000;
+  width: 90%;
+  max-width: 600px;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const WindowHeader = styled.div`
+  background: ${COLORS.sageGreen};
+  border-bottom: 3px solid #000;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+`;
+
+const WindowIcons = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  
+  svg {
+    cursor: pointer;
+    background: ${COLORS.lightSage};
+    color: #000;
+    border: 1px solid #000;
+    padding: 2px;
+  }
+`;
+
+const ChatArea = styled.div`
+  flex: 1;
+  background: #fff;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-bottom: 3px solid #000;
+  
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #fff;
+    border-left: 2px solid #000;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${COLORS.goldenYellow}; 
+    border: 2px solid #000;
+  }
+`;
+
+const MessageBubble = styled.div`
+  max-width: 80%;
+  padding: 1rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.4rem;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  align-self: ${props => props.$isUser ? 'flex-end' : 'flex-start'};
+  background: ${props => props.$isUser ? COLORS.goldenYellow : COLORS.lightSage};
+  color: #000;
+`;
+
+const InputArea = styled.form`
+  display: flex;
+  padding: 1rem;
+  background: ${COLORS.lightSage};
+  gap: 1rem;
+`;
+
+const StyledInput = styled.input`
+  flex: 1;
+  padding: 0.8rem;
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: inset 3px 3px 0px rgba(0,0,0,0.2);
+  font-family: 'VT323', monospace;
+  font-size: 1.5rem;
+  
+  &:focus {
+    outline: none;
+    background: #fffae6;
+  }
+`;
+
+const SendButton = styled.button`
+  background: ${COLORS.burntOrange};
+  color: #fff;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  padding: 0 1.5rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+  }
+  &:disabled {
+    background: #999;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+`;
 
 export default function ChatBox({ isOpen, onClose }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef(null);
-
-  const handleClose = () => {
-    onClose();
-  };
 
   const callChatbotAPI = async (message) => {
     try {
@@ -60,7 +162,7 @@ export default function ChatBox({ isOpen, onClose }) {
       setMessages(prevMessages => [...prevMessages, { text: response, sender: 'bot' }]);
     } catch (error) {
       console.error('Error in handleUserInput:', error);
-      setMessages(prevMessages => [...prevMessages, { text: "Sorry, an error occurred. Please try again.", sender: 'bot' }]);
+      setMessages(prevMessages => [...prevMessages, { text: "SYSTEM ERROR: CONNECTION REFUSED", sender: 'bot' }]);
     } finally {
       setIsLoading(false);
     }
@@ -78,153 +180,63 @@ export default function ChatBox({ isOpen, onClose }) {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Modal
-        open={isOpen}
-        onClose={handleClose}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Box
-          sx={{
-            width: '80%',
-            height: '60%',
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: 2,
-            overflow: 'hidden',
-            position: 'relative',
-          }}
-         >
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'blur(10px)',
-              transform: 'scale(1.1)',
-              zIndex: -1,
-            }}
-          />
-          <Paper
-            elevation={3}
-            sx={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              bgcolor: 'rgba(255, 255, 255, 0.7)',
-              backdropFilter: 'blur(10px)',
-              overflowY: 'scroll'
-            }}
+    <AnimatePresence>
+      {isOpen && (
+        <ModalOverlay
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <RetroWindow
+            initial={{ scale: 0.9, y: 50 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.9, y: 50 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                p: 1,
-              }}
-            >
-              <IconButton onClick={handleClose} size="small">
-                <CloseIcon />
-              </IconButton>
-            </Box>
-            <Box
-              ref={chatContainerRef}
-              sx={{
-                flex: 1,
-                overflowY: 'auto',
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
+            <WindowHeader>
+              <span>CHAT_ASSISTANT.EXE</span>
+              <WindowIcons>
+                <FaWindowMinimize onClick={onClose} />
+                <FaRegWindowMaximize />
+                <FaWindowClose onClick={onClose} />
+              </WindowIcons>
+            </WindowHeader>
+            
+            <ChatArea ref={chatContainerRef}>
+              {messages.length === 0 && (
+                <div style={{ textAlign: 'center', color: '#999', fontFamily: "'VT323', monospace", fontSize: '1.5rem', marginTop: '2rem' }}>
+                  [System initialized. Waiting for input...]
+                </div>
+              )}
               {messages.map((message, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start',
-                    mb: 2,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: message.sender === 'user' ? 'row-reverse' : 'row',
-                      alignItems: 'center',
-                      maxWidth: '70%',
-                    }}
-                  >
-                    <Avatar
-                      sx={{
-                        bgcolor: message.sender === 'user' ? 'secondary.main' : 'primary.main',
-                        mr: message.sender === 'user' ? 0 : 1,
-                        ml: message.sender === 'user' ? 1 : 0,
-                      }}
-                    >
-                      {message.sender === 'user' ? <PersonIcon /> : 'C'}
-                    </Avatar>
-                    <Paper
-                      elevation={1}
-                      sx={{
-                        p: 1,
-                        borderRadius: 2,
-                        bgcolor: message.sender === 'user' ? 'secondary.light' : 'primary.light',
-                      }}
-                    >
-                      <Typography variant="body1">{message.text}</Typography>
-                    </Paper>
-                  </Box>
-                </Box>
+                <MessageBubble key={index} $isUser={message.sender === 'user'}>
+                  {message.text}
+                </MessageBubble>
               ))}
               {isLoading && (
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
-                  <CircularProgress size={24} />
-                </Box>
+                <MessageBubble $isUser={false} style={{ animation: "pulse 1.5s infinite" }}>
+                  PROCESSING...
+                </MessageBubble>
               )}
-            </Box>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              sx={{
-                p: 2,
-                borderTop: 1,
-                borderColor: 'divider',
-              }}
-            >
-              <Box sx={{ display: 'flex' }}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  placeholder="Type your message"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  sx={{ mr: 1 }}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  endIcon={<SendIcon />}
-                  disabled={!newMessage.trim()}
-                >
-                  Send
-                </Button>
-              </Box>
-            </Box>
-          </Paper>
-        </Box>
-      </Modal>
-    </ThemeProvider>
+            </ChatArea>
+            
+            <InputArea onSubmit={handleSubmit}>
+              <StyledInput 
+                type="text"
+                placeholder="Enter command..."
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+              />
+              <SendButton type="submit" disabled={!newMessage.trim() || isLoading}>
+                SEND <FaPaperPlane />
+              </SendButton>
+            </InputArea>
+          </RetroWindow>
+        </ModalOverlay>
+      )}
+    </AnimatePresence>
   );
 }

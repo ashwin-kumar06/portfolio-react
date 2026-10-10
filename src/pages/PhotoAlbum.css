@@ -63,8 +63,8 @@
 }
 
 .photo-album-card:hover img {
-  box-shadow: 0 20px 56px rgba(175, 53, 250, 0.35),
-              0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 56px rgba(187, 62, 0, 0.4),
+              0 8px 24px rgba(247, 173, 69, 0.3);
 }
 
 .photo-album-lightbox-backdrop {
@@ -101,17 +101,17 @@
 }
 
 .photo-album-jigsaw-btn {
-  background: rgba(175, 53, 250, 0.85) !important;
+  background: linear-gradient(135deg, #BB3E00, #F7AD45) !important;
   color: white !important;
   text-transform: none !important;
   font-weight: 600 !important;
   padding: 10px 28px !important;
   border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(175, 53, 250, 0.35) !important;
+  box-shadow: 0 8px 24px rgba(187, 62, 0, 0.4) !important;
 }
 
 .photo-album-jigsaw-btn:hover {
-  background: rgba(175, 53, 250, 1) !important;
+  background: linear-gradient(135deg, #a13500, #e59c38) !important;
 }
 
 .photo-album-lightbox-close {

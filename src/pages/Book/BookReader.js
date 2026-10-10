@@ -3,6 +3,7 @@ import HTMLFlipBook from "react-pageflip";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { COLORS } from "../../constant";
 import page1 from "../../Books/Second Chance Commet/Second Chance Comet_pages-to-jpg-0001.jpg";
 import page2 from "../../Books/Second Chance Commet/Second Chance Comet_pages-to-jpg-0002.jpg";
 import page3 from "../../Books/Second Chance Commet/Second Chance Comet_pages-to-jpg-0003.jpg";
@@ -43,20 +44,22 @@ export default function BookReader(){
 
   return (
     <motion.div
-      className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-6"
+      style={{ minHeight: '100vh', backgroundColor: '#161d19', color: '#f0f4f1' }}
+      className="flex flex-col items-center p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <button
-        className="flex items-center gap-2 text-gray-300 hover:text-white mb-4"
+        style={{ color: COLORS.lightSage }}
+        className="flex items-center gap-2 hover:opacity-80 mb-4 transition-colors"
         onClick={() => navigate(-1)}
       >
         <ArrowLeft size={20} />
         <span>Back to Books</span>
       </button>
 
-      <h1 className="text-3xl font-bold mb-6">{book.title}</h1>
+      <h1 className="text-3xl font-bold mb-6" style={{ color: COLORS.goldenYellow }}>{book.title}</h1>
 
       <motion.div
         initial={{ y: 30, opacity: 0 }}

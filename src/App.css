@@ -1,9 +1,17 @@
+:root {
+  --color-burnt-orange: #BB3E00;
+  --color-golden-yellow: #F7AD45;
+  --color-sage-green: #657C6A;
+  --color-light-sage: #A2B9A7;
+}
+
 body {
   /* background-image: url('/src/logos/background.jpg'); */
   background-repeat: no-repeat;
   background-size: 100%;
   zoom: 80%;
-  background-color: #282c35;
+  background-color: #171f1a;
+  color: var(--color-light-sage);
 }
 
 .navbar-toggler-icon{
@@ -19,15 +27,24 @@ body {
 }
 
 .collapse a {
-  color: white;
+  color: var(--color-light-sage);
   font-weight: bold;
   font-size: larger;
+  transition: color 0.3s ease;
 }
 
 .collapse a:hover {
-  text-decoration: line-through 4px violet;
-  color: white;
+  text-decoration: line-through 4px var(--color-golden-yellow);
+  color: var(--color-golden-yellow);
+}
 
+.nav-link {
+  color: var(--color-light-sage) !important;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-golden-yellow) !important;
 }
 
 .content {
@@ -40,7 +57,7 @@ body {
 .content h2 {
   font-size: 5rem;
   font-weight: 800;
-  color: violet;
+  color: var(--color-burnt-orange);
 }
 
 .content h2 span {
@@ -57,7 +74,7 @@ body {
 }
 
 .content h1 span {
-  color: violet;
+  color: var(--color-golden-yellow);
 }
 
 .about {
@@ -70,7 +87,7 @@ body {
 .about h2 {
   font-size: 3rem;
   font-weight: 800;
-  color: violet;
+  color: var(--color-burnt-orange);
 }
 
 .about h2 span {
@@ -88,7 +105,7 @@ body {
 
 .about h1 span {
   font-size: 1rem;
-  color: violet;
+  color: var(--color-golden-yellow);
   text-shadow: none;
 }
 
@@ -172,7 +189,7 @@ body {
 
 .skills {
   padding: 5rem 0 2.5rem 0;
-  color: violet;
+  color: var(--color-golden-yellow);
 }
 
 .skills>.text {
@@ -244,7 +261,7 @@ body {
 }
 
 .progress-bar {
-  background: violet;
+  background: linear-gradient(90deg, var(--color-burnt-orange), var(--color-golden-yellow));
   height: 100%;
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
@@ -338,15 +355,15 @@ body {
   font-size: 3rem;
 }
 .icon-cards__item:nth-child(1) {
-  background: #af35fa;
+  background: var(--color-burnt-orange);
   transform: rotateY(0) translateZ(35vw);
 }
 .icon-cards__item:nth-child(2) {
-  background: #5e06a5;
+  background: var(--color-sage-green);
   transform: rotateY(120deg) translateZ(35vw);
 }
 .icon-cards__item:nth-child(3) {
-  background: #c300ff;
+  background: var(--color-golden-yellow);
   transform: rotateY(240deg) translateZ(35vw);
 }
 @keyframes carousel {
@@ -370,12 +387,12 @@ body {
   font-size: 0.9rem;
   font-weight: bold;
   text-transform: uppercase;
-  color: #f47956;
+  color: var(--color-golden-yellow);
   transition: color 0.3s ease;
   user-select: none;
 }
 .checkbox:hover {
-  color: #f7a95a;
+  color: var(--color-burnt-orange);
 }
 .checkbox__checkbox {
   position: relative;
@@ -410,7 +427,7 @@ body {
 }
 .checkbox > input:checked ~ .checkbox__checkbox {
   border-color: transparent;
-  background: #f47956;
+  background: var(--color-burnt-orange);
   animation: jelly 0.6s ease;
 }
 .checkbox > input:checked ~ .checkbox__checkbox:after {
@@ -472,8 +489,9 @@ p{
 
  /***** Section *****/ 
  .card{
-  box-shadow: #af35fa 0px 0px 5px 5px;
-  background-color: #282c35;
+  box-shadow: rgba(187, 62, 0, 0.4) 0px 0px 8px 3px;
+  background-color: #202b24;
+  border: 1px solid rgba(162, 185, 167, 0.2);
  }
  .chat-online {
   color: #34ce57
@@ -609,6 +627,19 @@ p{
 .resume-container img {
   max-width: 100%;
   height: auto;
+}
+
+.btn-primary {
+  background-color: var(--color-burnt-orange) !important;
+  border-color: var(--color-burnt-orange) !important;
+  color: #ffffff !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-golden-yellow) !important;
+  border-color: var(--color-golden-yellow) !important;
+  color: #161d19 !important;
 }
 
 .download-button {

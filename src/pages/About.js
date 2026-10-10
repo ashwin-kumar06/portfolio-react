@@ -20,19 +20,26 @@ import {
   Search as SearchIcon 
 } from '@mui/icons-material';
 import logo from '../logos/logo.jpg';
+import { COLORS } from '../constant';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#BB86FC',
+      main: COLORS.burntOrange,
+      light: COLORS.goldenYellow,
     },
     secondary: {
-      main: '#03DAC6',
+      main: COLORS.goldenYellow,
+      light: COLORS.lightSage,
     },
     background: {
-      default: '#121212',
-      paper: '#1E1E1E',
+      default: '#161d19',
+      paper: '#202a24',
+    },
+    text: {
+      primary: '#f0f4f1',
+      secondary: COLORS.lightSage,
     },
   },
   typography: {
@@ -103,7 +110,7 @@ export default function About() {
 
         <Container maxWidth="lg" sx={{ mt: 8, mb: 4, flexGrow: 1 }}>
           <Typography variant="h1" gutterBottom align="center" sx={{ mb: 6 }}>
-            Welcome to <span style={{ color: darkTheme.palette.primary.main }}>Ashwin Kumar's</span> Portfolio
+            Welcome to <span style={{ color: COLORS.goldenYellow }}>Ashwin Kumar's</span> Portfolio
           </Typography>
           <Typography variant="h5" paragraph align="center" sx={{ mb: 8 }}>
             Hello there! I'm Ashwin Kumar, a passionate Software Developer based in Nagercoil. 

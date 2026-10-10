@@ -18,7 +18,6 @@ import {
   Grid,
   Fade,
   Chip,
-  useTheme,
 } from '@mui/material';
 import {
   Download as DownloadIcon,
@@ -30,27 +29,31 @@ import {
   Computer as ComputerIcon,
   Language as LanguageIcon,
 } from '@mui/icons-material';
+import { COLORS } from '../constant';
 
 const styles = {
   pageContainer: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #1a237e 0%, #0d47a1 100%)',
+    background: 'linear-gradient(135deg, #141c18 0%, #1e2822 50%, #101713 100%)',
     padding: '2rem',
     boxSizing: 'border-box',
   },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'rgba(28, 38, 32, 0.95)',
+    color: '#f0f4f1',
+    border: '1px solid rgba(162, 185, 167, 0.2)',
     backdropFilter: 'blur(10px)',
     borderRadius: '16px',
     overflow: 'hidden',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
     transition: 'transform 0.3s ease',
     '&:hover': {
       transform: 'translateY(-5px)',
     },
   },
   statCard: {
-    background: 'linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)',
+    background: 'rgba(35, 48, 41, 0.8)',
+    border: '1px solid rgba(162, 185, 167, 0.25)',
     borderRadius: '12px',
     padding: '1rem',
     height: '100%',
@@ -61,7 +64,7 @@ const styles = {
     transition: 'all 0.3s ease',
     '&:hover': {
       transform: 'scale(1.02)',
-      boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)',
+      boxShadow: '0 8px 16px rgba(0, 0, 0, 0.25)',
     },
   },
   iconContainer: {
@@ -88,7 +91,6 @@ const styles = {
 };
 
 const ViewVisitors = () => {
-  const theme = useTheme();
   const [visitors, setVisitors] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -162,11 +164,11 @@ const ViewVisitors = () => {
         <Paper sx={styles.card}>
           <Box p={4}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-              <Typography variant="h4" fontWeight="bold" color="primary">
+              <Typography variant="h4" fontWeight="bold" sx={{ color: COLORS.goldenYellow }}>
                 Visitor Analytics Dashboard
               </Typography>
               <Tooltip title="Export Data">
-                <IconButton onClick={handleExportData} color="primary">
+                <IconButton onClick={handleExportData} sx={{ color: COLORS.goldenYellow }}>
                   <DownloadIcon />
                 </IconButton>
               </Tooltip>
@@ -175,36 +177,36 @@ const ViewVisitors = () => {
             <Grid container spacing={3} mb={4}>
               <Grid item xs={12} sm={6} md={3}>
                 <StatCard
-                  icon={<PeopleIcon sx={{ color: theme.palette.primary.main }} />}
+                  icon={<PeopleIcon sx={{ color: COLORS.burntOrange }} />}
                   title="Total Visits"
                   value={visitors.length}
-                  color={theme.palette.primary.main}
+                  color={COLORS.burntOrange}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <StatCard
-                  icon={<FingerprintIcon sx={{ color: theme.palette.secondary.main }} />}
+                  icon={<FingerprintIcon sx={{ color: COLORS.goldenYellow }} />}
                   title="Unique IPs"
                   value={new Set(visitors.map(v => v.ip)).size}
-                  color={theme.palette.secondary.main}
+                  color={COLORS.goldenYellow}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <StatCard
-                  icon={<TodayIcon sx={{ color: theme.palette.success.main }} />}
+                  icon={<TodayIcon sx={{ color: COLORS.sageGreen }} />}
                   title="Today's Visits"
                   value={visitors.filter(v =>
                     new Date(v.timestamp).toDateString() === new Date().toDateString()
                   ).length}
-                  color={theme.palette.success.main}
+                  color={COLORS.sageGreen}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <StatCard
-                  icon={<UpdateIcon sx={{ color: theme.palette.info.main }} />}
+                  icon={<UpdateIcon sx={{ color: COLORS.lightSage }} />}
                   title="Latest Visit"
                   value={visitors.length > 0 ? formatDate(visitors[visitors.length - 1].timestamp).split(',')[0] : 'N/A'}
-                  color={theme.palette.info.main}
+                  color={COLORS.lightSage}
                 />
               </Grid>
             </Grid>

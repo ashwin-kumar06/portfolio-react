@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
+import { COLORS } from '../constant';
 
 export default function TrainingChatBox() {
     const [messages, setMessages] = useState([]);
@@ -84,12 +85,12 @@ export default function TrainingChatBox() {
                                                 <div className="font-weight-bold mb-1">{message.sender === 'user' ? 'You' : 'Consci'}</div>
                                                 {message.text}
                                                 {message.sender === 'bot' && (
-                                                    <button onClick={() => handleFeedback(message, index)} className="btn btn-sm btn-outline-secondary mt-2">
+                                                    <button onClick={() => handleFeedback(message, index)} className="btn btn-sm mt-2" style={{ backgroundColor: COLORS.sageGreen, color: '#ffffff', borderColor: COLORS.sageGreen }}>
                                                         Provide Feedback
                                                     </button>
                                                 )}
                                                 {message.corrected && (
-                                                    <div className="text-success mt-2">
+                                                    <div className="mt-2 font-weight-bold" style={{ color: COLORS.goldenYellow }}>
                                                         Corrected: {message.corrected}
                                                     </div>
                                                 )}

@@ -1,20 +1,329 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  Button,
-  IconButton,
-} from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import HomeIcon from '@mui/icons-material/Home';
-import ExtensionIcon from '@mui/icons-material/Extension';
-import UndoIcon from '@mui/icons-material/Undo';
-import logo from '../logos/logo.jpg';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
+import { FaArrowLeft, FaHome, FaPuzzlePiece, FaUndo, FaWindowMinimize, FaRegWindowMaximize, FaWindowClose } from 'react-icons/fa';
 import photos from '../photosdata';
-import './Jigsaw.css';
+import { COLORS } from '../constant';
+
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Shrikhand&family=VT323&display=swap');
+  
+  body {
+    font-family: 'VT323', monospace;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: ${COLORS.lightSage};
+    background-image: 
+      linear-gradient(rgba(101, 124, 106, 0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(101, 124, 106, 0.4) 1px, transparent 1px);
+    background-size: 50px 50px;
+    color: #000;
+  }
+`;
+
+const PageContainer = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.header`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: ${COLORS.goldenYellow};
+  border-bottom: 4px solid #000;
+  box-shadow: 0px 6px 0px #000;
+  z-index: 10;
+`;
+
+const HeaderTitle = styled.h1`
+  font-family: 'Shrikhand', cursive;
+  font-size: 2rem;
+  color: #000;
+  margin: 0;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0px #fff;
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const HeaderBtn = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: ${props => props.$primary ? COLORS.burntOrange : '#fff'};
+  color: ${props => props.$primary ? '#fff' : '#000'};
+  text-decoration: none;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  transition: all 0.1s ease;
+  cursor: pointer;
+
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+  }
+  
+  &:hover {
+    background: #000;
+    color: #fff;
+  }
+`;
+
+const ContentArea = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  align-items: center;
+`;
+
+// Difficulty Phase
+const RetroWindow = styled.div`
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: 10px 10px 0px #000;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+`;
+
+const WindowHeader = styled.div`
+  background: ${COLORS.sageGreen};
+  border-bottom: 3px solid #000;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+`;
+
+const WindowIcons = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  
+  svg {
+    background: ${COLORS.lightSage};
+    color: #000;
+    border: 1px solid #000;
+    padding: 2px;
+    cursor: pointer;
+  }
+`;
+
+const WindowContent = styled.div`
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+`;
+
+const Title = styled.h2`
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.5rem;
+  margin: 0;
+  color: ${COLORS.burntOrange};
+`;
+
+const Subtitle = styled.p`
+  font-size: 1.5rem;
+  margin: 0;
+`;
+
+const PreviewImage = styled.img`
+  width: 100%;
+  max-width: 300px;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0px #000;
+`;
+
+const DiffButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+`;
+
+const DiffButton = styled.button`
+  background: ${COLORS.goldenYellow};
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  padding: 1rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.1s;
+  
+  &:hover {
+    background: ${COLORS.burntOrange};
+    color: #fff;
+  }
+  
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+  }
+`;
+
+// Playing Phase
+const GameHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 1rem;
+  background: #fff;
+  border: 3px solid #000;
+  padding: 0.5rem 1rem;
+  box-shadow: 4px 4px 0px #000;
+`;
+
+const GameInfo = styled.div`
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+`;
+
+const ActionButton = styled.button`
+  background: ${props => props.$primary ? COLORS.burntOrange : '#fff'};
+  color: ${props => props.$primary ? '#fff' : '#000'};
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  padding: 0.5rem 1rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  &:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+  
+  &:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+  }
+`;
+
+const GameArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  position: relative;
+  width: 100%;
+`;
+
+const Board = styled.div`
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+  touch-action: none;
+`;
+
+const Slot = styled.div`
+  position: absolute;
+  border: 1px dashed rgba(0,0,0,0.2);
+  box-sizing: border-box;
+`;
+
+const Piece = styled.div`
+  position: absolute;
+  border: 1px solid rgba(0,0,0,0.5);
+  box-sizing: border-box;
+  touch-action: none;
+  cursor: grab;
+  
+  &.placed {
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+  
+  &.locked {
+    border: none;
+    box-shadow: none;
+    cursor: default;
+    z-index: 1;
+  }
+  
+  &.floating {
+    z-index: 999;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.5);
+    cursor: grabbing;
+    pointer-events: none;
+  }
+`;
+
+const Tray = styled.div`
+  width: 100%;
+  max-width: 1000px;
+  background: ${COLORS.goldenYellow};
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #000;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+const TrayLabel = styled.div`
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
+const TrayPieces = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  min-height: 100px;
+  
+  .jigsaw-piece {
+    position: relative;
+    box-shadow: 2px 2px 0px #000;
+    
+    &.dragging {
+      opacity: 0.3;
+    }
+  }
+`;
+
+const WinOverlay = styled.div`
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+`;
 
 const DIFFICULTIES = {
   easy: { label: 'Easy', rows: 3, cols: 3, description: '9 pieces' },
@@ -297,7 +606,7 @@ function JigsawBoard({ imageSrc, rows, cols, onCompletionChange }) {
   const renderPiece = (piece, isDragging = false) => (
     <div
       key={piece.id}
-      className={`jigsaw-piece${isDragging ? ' jigsaw-piece--dragging' : ''}`}
+      className={`jigsaw-piece ${isDragging ? 'dragging' : ''}`}
       style={{
         width: pieceWidth,
         height: pieceHeight,
@@ -315,28 +624,22 @@ function JigsawBoard({ imageSrc, rows, cols, onCompletionChange }) {
   );
 
   if (!imageLoaded) {
-    return <Box className="jigsaw-loading">Loading puzzle...</Box>;
+    return <div style={{ fontFamily: "'Press Start 2P', monospace", margin: '2rem' }}>LOADING.EXE...</div>;
   }
 
   const draggingPiece = draggingId !== null ? pieces.find((p) => p.id === draggingId) : null;
 
   return (
-    <Box className="jigsaw-game">
-      <Box className="jigsaw-board-toolbar">
-        <Button
-          size="small"
-          variant="outlined"
-          className="jigsaw-undo-btn"
-          startIcon={<UndoIcon />}
-          onClick={handleUndo}
-          disabled={!canUndo}
-        >
-          Undo
-        </Button>
-      </Box>
+    <GameArea>
+      <GameHeader>
+        <GameInfo>
+          <ActionButton onClick={handleUndo} disabled={!canUndo}>
+            <FaUndo /> UNDO
+          </ActionButton>
+        </GameInfo>
+      </GameHeader>
 
-      <Box
-        className="jigsaw-board"
+      <Board
         ref={boardRef}
         style={{ width: boardSize.width, height: boardSize.height }}
       >
@@ -344,9 +647,8 @@ function JigsawBoard({ imageSrc, rows, cols, onCompletionChange }) {
           const row = Math.floor(i / cols);
           const col = i % cols;
           return (
-            <div
+            <Slot
               key={`slot-${row}-${col}`}
-              className="jigsaw-slot"
               style={{
                 width: pieceWidth,
                 height: pieceHeight,
@@ -358,9 +660,9 @@ function JigsawBoard({ imageSrc, rows, cols, onCompletionChange }) {
         })}
 
         {placedPieces.map((piece) => (
-          <div
+          <Piece
             key={`placed-${piece.id}`}
-            className={`jigsaw-piece jigsaw-piece--placed${piece.locked ? ' jigsaw-piece--locked' : ''}`}
+            className={`placed ${piece.locked ? 'locked' : ''}`}
             style={{
               width: pieceWidth,
               height: pieceHeight,
@@ -376,20 +678,18 @@ function JigsawBoard({ imageSrc, rows, cols, onCompletionChange }) {
             onPointerUp={piece.locked ? undefined : handlePointerUp}
           />
         ))}
-      </Box>
+      </Board>
 
-      <Box className="jigsaw-tray">
-        <Typography variant="body2" className="jigsaw-tray-label">
-          Drag pieces onto the board
-        </Typography>
-        <Box className="jigsaw-tray-pieces">
+      <Tray className="jigsaw-tray">
+        <TrayLabel>DRAG_PIECES_ONTO_BOARD.EXE</TrayLabel>
+        <TrayPieces>
           {trayPieces.map((piece) => renderPiece(piece, draggingId === piece.id))}
-        </Box>
-      </Box>
+        </TrayPieces>
+      </Tray>
 
       {draggingPiece && (
-        <div
-          className="jigsaw-piece jigsaw-piece--floating"
+        <Piece
+          className="floating"
           style={{
             width: pieceWidth,
             height: pieceHeight,
@@ -401,7 +701,7 @@ function JigsawBoard({ imageSrc, rows, cols, onCompletionChange }) {
           }}
         />
       )}
-    </Box>
+    </GameArea>
   );
 }
 
@@ -444,75 +744,56 @@ export default function Jigsaw() {
   const config = difficulty ? DIFFICULTIES[difficulty] : null;
 
   return (
-    <Box className="jigsaw-page">
-      <AppBar position="static" className="jigsaw-header" elevation={0}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            onClick={() => navigate('/photo')}
-            aria-label="back to gallery"
-            sx={{ color: '#C8ACD6', mr: 1 }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-          <img
-            src={logo}
-            alt="Logo"
-            style={{ width: 50, height: 50, marginRight: 10, borderRadius: '50%' }}
-          />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#C8ACD6' }}>
-            Jigsaw Puzzle
-          </Typography>
-          <IconButton color="inherit" href="/home" aria-label="home" sx={{ color: '#C8ACD6' }}>
-            <HomeIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+    <PageContainer>
+      <GlobalStyle />
+      
+      <Header>
+        <HeaderTitle>JIGSAW.EXE</HeaderTitle>
+        <HeaderActions>
+          <HeaderBtn to="/photo">
+            <FaArrowLeft size={16} /> GALLERY
+          </HeaderBtn>
+          <HeaderBtn to="/home" $primary>
+            <FaHome size={16} /> HOME
+          </HeaderBtn>
+        </HeaderActions>
+      </Header>
 
-      <Box className="jigsaw-content">
+      <ContentArea>
         {phase === 'difficulty' && (
-          <Box className="jigsaw-difficulty">
-            <ExtensionIcon className="jigsaw-difficulty-icon" />
-            <Typography variant="h5" className="jigsaw-difficulty-title">
-              Choose Difficulty
-            </Typography>
-            <Typography variant="body2" className="jigsaw-difficulty-subtitle">
-              Select how many pieces you want to solve
-            </Typography>
-            <Box className="jigsaw-preview">
-              <img src={imageSrc} alt="Puzzle preview" />
-            </Box>
-            <Box className="jigsaw-difficulty-buttons">
-              {Object.entries(DIFFICULTIES).map(([key, { label, description }]) => (
-                <Button
-                  key={key}
-                  variant="contained"
-                  className={`jigsaw-difficulty-btn jigsaw-difficulty-btn--${key}`}
-                  onClick={() => handleSelectDifficulty(key)}
-                >
-                  <span className="jigsaw-difficulty-btn-label">{label}</span>
-                  <span className="jigsaw-difficulty-btn-desc">{description}</span>
-                </Button>
-              ))}
-            </Box>
-          </Box>
+          <RetroWindow>
+            <WindowHeader>
+              <span>CHOOSE_DIFFICULTY.EXE</span>
+              <WindowIcons>
+                <FaWindowMinimize />
+                <FaRegWindowMaximize />
+                <FaWindowClose />
+              </WindowIcons>
+            </WindowHeader>
+            <WindowContent>
+              <Title><FaPuzzlePiece /> NEW PUZZLE</Title>
+              <PreviewImage src={imageSrc} alt="Puzzle preview" />
+              <Subtitle>Select your challenge:</Subtitle>
+              <DiffButtonsContainer>
+                {Object.entries(DIFFICULTIES).map(([key, { label, description }]) => (
+                  <DiffButton key={key} onClick={() => handleSelectDifficulty(key)}>
+                    <span>{label}</span>
+                    <span style={{ fontSize: '1rem', color: '#555' }}>{description}</span>
+                  </DiffButton>
+                ))}
+              </DiffButtonsContainer>
+            </WindowContent>
+          </RetroWindow>
         )}
 
         {phase === 'playing' && config && (
-          <>
-            <Box className="jigsaw-game-header">
-              <Typography variant="body1" className="jigsaw-game-info">
-                {config.label} · {config.description}
-              </Typography>
-              <Button
-                size="small"
-                variant="outlined"
-                className="jigsaw-change-difficulty"
-                onClick={handlePlayAgain}
-              >
-                Change difficulty
-              </Button>
-            </Box>
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <GameHeader>
+              <GameInfo>
+                MODE: {config.label.toUpperCase()} | {config.description.toUpperCase()}
+              </GameInfo>
+              <ActionButton onClick={handlePlayAgain}>CHANGE_DIFFICULTY</ActionButton>
+            </GameHeader>
 
             <JigsawBoard
               key={difficulty}
@@ -523,24 +804,32 @@ export default function Jigsaw() {
             />
 
             {completed && (
-              <Box className="jigsaw-win-overlay">
-                <Box className="jigsaw-win-card">
-                  <Typography variant="h5">Puzzle complete!</Typography>
-                  <img src={imageSrc} alt="Completed puzzle" className="jigsaw-win-image" />
-                  <Box className="jigsaw-win-actions">
-                    <Button variant="contained" onClick={handlePlayAgain}>
-                      Play again
-                    </Button>
-                    <Button variant="outlined" onClick={() => navigate('/photo')}>
-                      Back to gallery
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
+              <WinOverlay>
+                <RetroWindow style={{ maxWidth: '400px', marginTop: 0 }}>
+                  <WindowHeader>
+                    <span>VICTORY.EXE</span>
+                    <WindowIcons>
+                      <FaWindowClose onClick={handlePlayAgain} />
+                    </WindowIcons>
+                  </WindowHeader>
+                  <WindowContent>
+                    <Title>PUZZLE COMPLETE!</Title>
+                    <PreviewImage src={imageSrc} alt="Completed puzzle" />
+                    <DiffButtonsContainer>
+                      <ActionButton $primary onClick={handlePlayAgain} style={{ justifyContent: 'center' }}>
+                        PLAY AGAIN
+                      </ActionButton>
+                      <ActionButton onClick={() => navigate('/photo')} style={{ justifyContent: 'center' }}>
+                        BACK TO GALLERY
+                      </ActionButton>
+                    </DiffButtonsContainer>
+                  </WindowContent>
+                </RetroWindow>
+              </WinOverlay>
             )}
-          </>
+          </div>
         )}
-      </Box>
-    </Box>
+      </ContentArea>
+    </PageContainer>
   );
 }

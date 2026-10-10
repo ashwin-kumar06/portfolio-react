@@ -15,10 +15,12 @@ import NutritionAssistantApplication from './pages/Projects/Naa';
 import ViewVisitors from './pages/ViewVisitors';
 import Books from './pages/Book/Books';
 import BookReader from './pages/Book/BookReader';
+import { COLOR_VARIABLES } from './constant';
+import './App.css';
 
 export default function App() {
     return (
-        <div className="App">
+        <div className="App" style={COLOR_VARIABLES}>
             <Routes>
                 <Route path="/portfolio-react" element={<Home />} />
                 <Route path="home" element={<Home />} />
