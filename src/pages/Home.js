@@ -147,13 +147,7 @@ const HeroContainer = styled.div`
   width: 100%;
 `;
 
-const Greeting = styled(motion.div)`
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.5rem;
-  font-style: italic;
-  color: #000;
-  margin-bottom: 0.5rem;
-`;
+
 
 const Title = styled(motion.h1)`
   font-family: 'Shrikhand', cursive;
